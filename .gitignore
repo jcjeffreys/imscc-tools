@@ -34,6 +34,9 @@ env/
 *.swo
 *~
 
+# Courses
+courses/
+
 # Output files
 output/
 *.imscc
