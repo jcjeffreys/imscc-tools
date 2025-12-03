@@ -23,14 +23,7 @@ import argparse
 from pathlib import Path
 
 
-EXAMPLE_PAGE_WITH_FILE_LINK = """<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Welcome to Your Course</title>
-</head>
-<body>
-<!-- CANVAS_META
+EXAMPLE_PAGE_WITH_FILE_LINK = """<!-- CANVAS_META
 title: Welcome (TEMPLATE)
 home: true
 -->
@@ -74,19 +67,9 @@ home: true
     </ul>
     <p>This happens automatically when you export to IMSCC format!</p>
 </div>
-
-</body>
-</html>
 """
 
-EXAMPLE_LESSON_PAGE = """<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Lesson 1</title>
-</head>
-<body>
-<!-- CANVAS_META
+EXAMPLE_LESSON_PAGE = """<!-- CANVAS_META
 title: Lesson 1: Getting Started (TEMPLATE)
 -->
 
@@ -123,14 +106,7 @@ title: Lesson 1: Getting Started (TEMPLATE)
 </html>
 """
 
-EXAMPLE_LESSON_2_PAGE = """<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Lesson 2</title>
-</head>
-<body>
-<!-- CANVAS_META
+EXAMPLE_LESSON_2_PAGE = """<!-- CANVAS_META
 title: Lesson 2: Core Concepts (TEMPLATE)
 -->
 
@@ -165,9 +141,6 @@ title: Lesson 2: Core Concepts (TEMPLATE)
         <li>Demonstrates various content formatting options</li>
     </ul>
 </div>
-
-</body>
-</html>
 """
 
 EXAMPLE_SYLLABUS = """Course Syllabus
@@ -361,7 +334,7 @@ EXAMPLE_QUIZ_JSON = {
 
 EXAMPLE_ASSIGNMENT_JSON = {
     "title": "Comprehensive Assignment Example",
-    "description": "<p>This assignment demonstrates all available features including submission types, file restrictions, and rubric integration.</p><h3>Requirements:</h3><ul><li>Complete all parts of the assignment</li><li>Submit your work as a PDF document</li><li>Review the rubric before submitting</li><li>Ensure all files are properly formatted</li></ul>",
+    "description_file": "comprehensive-assignment_TEMPLATE.html",
     "points_possible": 100,
     "submission_types": ["online_upload", "online_text_entry"],
     "allowed_extensions": [".pdf", ".doc", ".docx", ".txt"],
@@ -372,6 +345,49 @@ EXAMPLE_ASSIGNMENT_JSON = {
     "lock_at": None,
     "unlock_at": None
 }
+
+EXAMPLE_ASSIGNMENT_DESCRIPTION = """<div style="max-width: 900px; margin: 0 auto;">
+    <h2>📝 Assignment Overview</h2>
+    <p>This assignment demonstrates all available features including submission types, file restrictions, and rubric integration.</p>
+    
+    <div style="background-color: #e8f4fd; border-left: 4px solid #0374B5; padding: 15px; margin: 20px 0;">
+        <strong>💡 Tip:</strong> This is an example assignment showing how to use separate HTML files for assignment descriptions. This makes editing easier and keeps your JSON clean.
+    </div>
+
+    <h3>📋 Requirements</h3>
+    <ul style="line-height: 1.8;">
+        <li>Complete all parts of the assignment</li>
+        <li>Submit your work as a PDF document (or Word document, or text file)</li>
+        <li>Review the rubric before submitting</li>
+        <li>Ensure all files are properly formatted</li>
+        <li>Follow the submission guidelines below</li>
+    </ul>
+
+    <h3>📊 Evaluation Criteria</h3>
+    <p>Your work will be assessed using the attached rubric. Pay particular attention to:</p>
+    <ul style="line-height: 1.8;">
+        <li><strong>Content Quality</strong> (25 points) - Depth and accuracy of your work</li>
+        <li><strong>Organization & Structure</strong> (20 points) - Logical flow and clarity</li>
+        <li><strong>Analysis & Critical Thinking</strong> (25 points) - Depth of analysis</li>
+        <li><strong>Writing Quality</strong> (15 points) - Grammar and mechanics</li>
+        <li><strong>Sources & Citations</strong> (15 points) - Proper referencing</li>
+    </ul>
+
+    <h3>📤 Submission Guidelines</h3>
+    <p>You may submit your assignment in one of the following formats:</p>
+    <ul style="line-height: 1.8;">
+        <li><strong>Upload a file:</strong> PDF, Word (.doc/.docx), or text file (.txt)</li>
+        <li><strong>Text entry:</strong> Type directly into the submission box</li>
+    </ul>
+
+    <div style="background-color: #fff3cd; border-left: 4px solid #ffc107; padding: 15px; margin: 20px 0;">
+        <strong>⚠️ Important:</strong> Make sure to click the <strong>Submit Assignment</strong> button when you're done. Simply uploading a file or entering text does not automatically submit your work.
+    </div>
+
+    <h3>❓ Questions?</h3>
+    <p>If you have any questions about this assignment, please reach out during class or via email.</p>
+</div>
+"""
 
 EXAMPLE_RUBRIC_JSON = {
     "title": "Comprehensive Rubric with Rating Descriptions",
@@ -636,6 +652,10 @@ def create_template(output_dir):
     assignment_path = assignments_dir / "comprehensive-assignment_TEMPLATE.json"
     assignment_path.write_text(json.dumps(EXAMPLE_ASSIGNMENT_JSON, indent=2), encoding='utf-8')
     print(f"   ✓ assignments/comprehensive-assignment_TEMPLATE.json")
+    
+    assignment_html_path = assignments_dir / "comprehensive-assignment_TEMPLATE.html"
+    assignment_html_path.write_text(EXAMPLE_ASSIGNMENT_DESCRIPTION, encoding='utf-8')
+    print(f"   ✓ assignments/comprehensive-assignment_TEMPLATE.html")
     
     # Create example rubric
     print("\n📊 Creating example rubric...")

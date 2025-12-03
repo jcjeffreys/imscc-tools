@@ -297,8 +297,21 @@ def load_quiz_from_json(quiz_path):
 
 def load_assignment_from_json(assignment_path):
     """Load an assignment from a JSON file."""
-    with open(assignment_path, 'r') as f:
+    with open(assignment_path, 'r', encoding='utf-8') as f:
         assignment_data = json.load(f)
+    
+    # Handle description_file if specified
+    description = assignment_data.get('description', '')
+    description_file = assignment_data.get('description_file')
+    
+    if description_file:
+        # Look for the HTML file in the same directory as the JSON file
+        html_path = assignment_path.parent / description_file
+        if html_path.exists():
+            with open(html_path, 'r', encoding='utf-8') as f:
+                description = f.read()
+        else:
+            print(f"   ⚠️  Warning: Description file '{description_file}' not found for {assignment_path.name}")
     
     # Convert submission_types list to comma-separated string
     submission_types = assignment_data.get('submission_types', ['online_upload'])
@@ -312,7 +325,7 @@ def load_assignment_from_json(assignment_path):
     
     return Assignment(
         title=assignment_data.get('title', 'Untitled Assignment'),
-        description=assignment_data.get('description', ''),
+        description=description,
         points_possible=assignment_data.get('points_possible', 100),
         submission_types=submission_types,
         allowed_extensions=allowed_extensions,
@@ -581,7 +594,7 @@ def build_imscc(template_dir, output_file=None):
             item_count = 0
             for item in items:
                 item_type = item.get('type')
-                item_id = item.get('id')
+                item_id = item.get('id') or item.get('identifier')  # Support both 'id' and 'identifier'
                 
                 if item_type == 'page':
                     # Convert filename to title slug
