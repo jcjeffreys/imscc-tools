@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Styling Guide 3: Complete Lesson Example</title>
+    <link rel="stylesheet" href="../css/canvas-course.css">
+</head>
+<body>
+    <!-- CANVAS_META
+    title: Styling Guide 3: Complete Lesson Example
+    -->
+
+    <h1>🎓 Styling Guide 3: Complete Lesson Example</h1>
+    <p>This guide demonstrates how styling elements work together in a real lesson. This is a balanced, production-ready lesson on Python functions.</p>
+
+    <hr>
+
+    <div class="info-learning-goals">
+        <h3>🎯 Learning Intentions</h3>
+        <ul>
+            <li>Understand what functions are and why they're useful</li>
+            <li>Learn how to define and call functions in Python</li>
+            <li>Practice writing functions with parameters and return values</li>
+        </ul>
+        <h3>✓ Success Criteria</h3>
+        <ul>
+            <li>I can create a function with the <code>def</code> keyword</li>
+            <li>I can call a function and pass arguments to it</li>
+            <li>I can use return values from functions</li>
+            <li>I can explain when and why to use functions</li>
+        </ul>
+    </div>
+
+    <h2>📚 What Are Functions?</h2>
+
+    <p>A <strong>function</strong> is a reusable block of code that performs a specific task. Instead of writing the same code over and over, you can define a function once and call it whenever you need it.</p>
+    
+    <p><strong>Think of it like a recipe:</strong> The recipe has a name ("Make Sandwich"), ingredients (parameters), and produces a result (return value). You can use the recipe many times without rewriting it.</p>
+
+    <h3>Why Use Functions?</h3>
+    <ul>
+        <li><strong>Reusability:</strong> Write code once, use it many times</li>
+        <li><strong>Organization:</strong> Break complex problems into smaller pieces</li>
+        <li><strong>Readability:</strong> Give meaningful names to blocks of code</li>
+        <li><strong>Testing:</strong> Test individual functions independently</li>
+        <li><strong>Maintenance:</strong> Fix bugs in one place instead of many</li>
+    </ul>
+
+    <h2>🔨 Creating Functions</h2>
+
+    <h3>Basic Function Syntax</h3>
+    <p>Use the <code>def</code> keyword to define a function:</p>
+    <pre><code>def greet():
+    print("Hello, World!")
+    print("Welcome to Python!")
+
+# Call the function
+greet()</code></pre>
+
+    <h3>Function Naming Conventions</h3>
+    <p>Good function names are descriptive and use verbs. Follow the <code>snake_case</code> convention in Python:</p>
+    
+    <div class="enhanceable_content tabs">
+        <ul>
+            <li class="example-good"><a href="#good-names">✅ Good Names</a></li>
+            <li class="example-bad"><a href="#bad-names">❌ Bad Names</a></li>
+        </ul>
+        <div id="good-names" class="example-good">
+            <h3>✅ Good Function Names</h3>
+            <pre><code>def calculate_total_price(quantity, unit_price):
+    return quantity * unit_price
+
+def validate_email_address(email):
+    return "@" in email and "." in email
+
+def display_student_report(student_name, grades):
+    average = sum(grades) / len(grades)
+    print(f"{student_name}: {average:.2f}%")</code></pre>
+            <p><strong>Why these work:</strong> Names clearly describe what each function does. Anyone reading the code can understand the purpose without looking at the implementation.</p>
+        </div>
+        <div id="bad-names" class="example-bad">
+            <h3>❌ Bad Function Names</h3>
+            <pre><code>def calc(q, p):  # What does this calculate?
+    return q * p
+
+def check(e):  # Check what?
+    return "@" in e and "." in e
+
+def do_stuff(x, y):  # Too vague!
+    z = sum(y) / len(y)
+    print(f"{x}: {z:.2f}%")</code></pre>
+            <p><strong>Problems:</strong> Abbreviated names (<code>calc</code>), vague verbs (<code>check</code>, <code>do_stuff</code>), and unclear parameters (<code>q</code>, <code>p</code>, <code>e</code>) make code hard to understand and maintain.</p>
+        </div>
+    </div>
+
+    <h2>📥 Function Parameters</h2>
+
+    <p><strong>Parameters</strong> are variables that receive values when the function is called. They let you pass information into your functions.</p>
+    
+    <pre><code>def greet(name):  # 'name' is a parameter
+    print(f"Hello, {name}!")
+
+greet("Alice")  # "Alice" is the argument
+greet("Bob")    # "Bob" is the argument</code></pre>
+
+    <blockquote>
+        💡 <strong>Parameters vs. Arguments:</strong> Parameters are placeholders in the function definition. Arguments are the actual values you pass when calling the function.
+    </blockquote>
+
+    <h3>Multiple Parameters</h3>
+    <p>Functions can accept multiple parameters:</p>
+    <pre><code>def calculate_rectangle_area(width, height):
+    area = width * height
+    print(f"A rectangle {width}×{height} has area {area}")
+
+calculate_rectangle_area(5, 10)
+calculate_rectangle_area(7, 3)</code></pre>
+
+    <details class="task-practice">
+        <summary>✏️ Practice Exercise</summary>
+        <p>Create a function called <code>introduce_yourself</code> that accepts three parameters: <code>name</code>, <code>age</code>, and <code>hobby</code>.</p>
+        <p>The function should print: <code>"Hi, I'm Alice. I'm 16 years old and I love programming."</code></p>
+        
+        <details>
+            <summary>💡 View Solution</summary>
+            <pre><code>def introduce_yourself(name, age, hobby):
+    print(f"Hi, I'm {name}.")
+    print(f"I'm {age} years old and I love {hobby}.")
+
+introduce_yourself("Alice", 16, "programming")</code></pre>
+        </details>
+    </details>
+
+    <h2>↩️ Return Values</h2>
+
+    <p>Functions can send data back using the <code>return</code> keyword. This lets you use the result in other parts of your program.</p>
+    
+    <pre><code>def add_numbers(a, b):
+    result = a + b
+    return result  # Send the result back
+
+total = add_numbers(5, 3)  # total now equals 8
+print(f"The sum is: {total}")</code></pre>
+
+    <h3>Return vs. Print</h3>
+    <p><strong>Important:</strong> <code>return</code> and <code>print()</code> are different. <code>return</code> sends a value back to the caller (useful for calculations). <code>print()</code> only displays text on screen.</p>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>Feature</th>
+                <th><code>return</code></th>
+                <th><code>print()</code></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Purpose</td>
+                <td>Sends value back to caller</td>
+                <td>Displays text on screen</td>
+            </tr>
+            <tr>
+                <td>Can be used in calculations</td>
+                <td>✅ Yes</td>
+                <td>❌ No</td>
+            </tr>
+            <tr>
+                <td>Ends function immediately</td>
+                <td>✅ Yes</td>
+                <td>❌ No</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <details class="task-practice">
+        <summary>✏️ Practice: Temperature Converter</summary>
+        <p>Create two functions:</p>
+        <ul>
+            <li><code>celsius_to_fahrenheit(celsius)</code> - converts Celsius to Fahrenheit</li>
+            <li><code>fahrenheit_to_celsius(fahrenheit)</code> - converts Fahrenheit to Celsius</li>
+        </ul>
+        <p>Formulas: F = (C × 9/5) + 32 and C = (F - 32) × 5/9</p>
+        
+        <details>
+            <summary>💡 View Solution</summary>
+            <pre><code>def celsius_to_fahrenheit(celsius):
+    return (celsius * 9/5) + 32
+
+def fahrenheit_to_celsius(fahrenheit):
+    return (fahrenheit - 32) * 5/9
+
+# Test
+print(celsius_to_fahrenheit(25))  # 77.0
+print(fahrenheit_to_celsius(77))  # 25.0</code></pre>
+        </details>
+    </details>
+
+    <hr>
+
+    <h2>🎯 Portfolio Assessment</h2>
+
+    <div class="task-portfolio">
+        <h3>📁 Portfolio Task: Temperature Converter Program</h3>
+        <p>Apply your knowledge of functions to create a practical temperature conversion program. This task requires you to write two functions and a main program that uses them together.</p>
+        
+        <p><strong>What you'll do:</strong> Create functions to convert between Celsius and Fahrenheit, then build a menu-driven program that lets users choose which conversion to perform.</p>
+        
+        <p><strong>Skills practiced:</strong> Function definition, parameters, return values, user input, and conditional logic.</p>
+
+        <a href="$CANVAS_OBJECT_REFERENCE$/assignments/comprehensive-assignment_TEMPLATE" class="button">View Full Assignment Details</a>
+    </div>
+
+    <hr>
+
+    <h2>📝 Knowledge Check</h2>
+
+    <div class="task-quiz">
+        <h3>📝 Quiz: Python Functions</h3>
+        <p>Test your understanding of function concepts covered in this lesson. This quiz includes questions about function syntax, parameters, return values, and best practices.</p>
+        
+        <p><strong>Topics covered:</strong> Function definition with <code>def</code>, parameters vs arguments, return statements, function naming conventions, and common mistakes.</p>
+        
+        <p><strong>Time:</strong> 15 minutes | <strong>Questions:</strong> 12 | <strong>Points:</strong> 24</p>
+
+        <a href="$CANVAS_OBJECT_REFERENCE$/quizzes/comprehensive-quiz_TEMPLATE" class="button">Start Quiz</a>
+    </div>
+
+    <hr>
+
+    <div class="info-summary">
+        <h2>📋 Lesson Summary</h2>
+        <h3>📋 What We Learned</h3>
+        <ul>
+            <li><strong>Functions</strong> are reusable blocks of code that perform specific tasks</li>
+            <li>Use <code>def</code> to define a function</li>
+            <li><strong>Parameters</strong> let you pass information into functions</li>
+            <li><strong>Return values</strong> let functions send data back</li>
+            <li>Functions improve code organization, reusability, and maintainability</li>
+        </ul>
+
+        <h3>Key Syntax</h3>
+        <pre><code>def function_name(parameter1, parameter2):
+    # Function body
+    result = parameter1 + parameter2
+    return result</code></pre>
+
+        <h3>Next Steps</h3>
+        <ul>
+            <li>Complete the practice exercises</li>
+            <li>Finish the temperature converter portfolio task</li>
+            <li>Take the functions quiz</li>
+            <li>Next lesson: Lists and loops with functions</li>
+        </ul>
+    </div>
+
+    <hr>
+
+    <div class="info-note">
+        <h2>💡 About This Example</h2>
+        <p>This lesson demonstrates how to combine all styling elements:</p>
+        <ul>
+            <li><strong>Info boxes</strong> for learning goals, concepts, tips, and summaries</li>
+            <li><strong>Task boxes</strong> for practice exercises, portfolio tasks, and quizzes</li>
+            <li><strong>Priority badges</strong> for indicating MUST/SHOULD/COULD requirements</li>
+            <li><strong>Tabs</strong> for organizing related content (good/bad examples)</li>
+            <li><strong>Accordions</strong> for solutions, requirements, and quiz answers</li>
+            <li><strong>Nested elements</strong> like accordions inside task boxes</li>
+            <li><strong>Tables</strong> for structured comparisons</li>
+            <li><strong>Code blocks</strong> for examples and solutions</li>
+            <li><strong>Buttons</strong> for calls to action</li>
+        </ul>
+        <p>Use this as a template when creating your own lessons!</p>
+    </div>
+
+</body>
+</html>

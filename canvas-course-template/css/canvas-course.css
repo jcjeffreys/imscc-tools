@@ -1,0 +1,728 @@
+/* Canvas Course Styles - Clean Inlineable CSS */
+
+/* =================================================================
+   TYPOGRAPHY & BASE STYLES
+   ================================================================= */
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    color: #1f2937;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 600;
+}
+
+h1 { font-size: 2em; color: #111827; }
+h2 { font-size: 1.5em; color: #1f2937; }
+h3 { font-size: 1.25em; color: #374151; }
+h4 { font-size: 1.1em; color: #4b5563; }
+
+code {
+    font-family: 'Courier New', Courier, monospace;
+    background-color: #1f2937;
+    color: #f9fafb;
+    padding: 2px 6px;
+    border-radius: 3px;
+}
+
+pre {
+    background-color: #1f2937;
+    color: #f9fafb;
+    padding: 16px;
+    border-radius: 6px;
+    overflow-x: auto;
+}
+
+pre code {
+    background-color: transparent;
+    color: inherit;
+    padding: 0;
+}
+
+li {
+    margin-top: 8px;
+}
+
+li:first-child {
+    margin-top: 0;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    border: 1px solid #d1d5db;
+    background-color: #ffffff;
+}
+
+thead {
+    background-color: #f3f4f6;
+}
+
+th {
+    padding: 12px 16px;
+    text-align: left;
+    font-weight: 600;
+    color: #374151;
+    border-bottom: 2px solid #d1d5db;
+    background-color: #f3f4f6;
+}
+
+td {
+    padding: 12px 16px;
+    border-bottom: 1px solid #e5e7eb;
+    background-color: #ffffff;
+}
+
+tr:last-child td {
+    border-bottom: none;
+}
+
+tbody tr:hover td {
+    background-color: #f9fafb;
+}
+
+/* =================================================================
+   HORIZONTAL RULES
+   ================================================================= */
+
+hr {
+    border: none;
+    border-top: 2px solid #d1d5db;
+    margin: 32px 0;
+}
+
+/* =================================================================
+   BLOCKQUOTES
+   Suggested emoji: 💬
+   ================================================================= */
+
+blockquote {
+    position: relative;
+    padding: 20px;
+    margin: 20px 0;
+    border: 1px solid #9ca3af;
+    border-left: 4px solid #9ca3af;
+    border-radius: 8px;
+    background-color: #f9fafb;
+    color: #4b5563;
+    font-style: italic;
+}
+
+/* =================================================================
+   TASK BOXES
+   Suggested emojis:
+   - task-practice: ✏️
+   - task-portfolio: 📁
+   - task-quiz: 📝
+   ================================================================= */
+
+div.task-practice {
+    padding: 0 20px;
+    margin: 20px 0;
+    border: 3px solid #1e40af;
+    border-radius: 8px;
+    background-color: #dbeafe;
+}
+
+.task-practice h1,
+.task-practice h2,
+.task-practice h3,
+.task-practice h4 {
+    color: #1e40af;
+}
+
+div.task-portfolio {
+    padding: 0 20px;
+    margin: 20px 0;
+    border: 3px solid #7c3aed;
+    border-radius: 8px;
+    background-color: #ede9fe;
+}
+
+.task-portfolio h1,
+.task-portfolio h2,
+.task-portfolio h3,
+.task-portfolio h4 {
+    color: #7c3aed;
+}
+
+div.task-quiz {
+    padding: 0 20px;
+    margin: 20px 0;
+    border: 3px solid #047857;
+    border-radius: 8px;
+    background-color: #d1fae5;
+}
+
+.task-quiz h1,
+.task-quiz h2,
+.task-quiz h3,
+.task-quiz h4 {
+    color: #047857;
+}
+
+/* =================================================================
+   TASK PRIORITY BADGES
+   Suggested emojis:
+   - badge-must: ⭐
+   - badge-should: ➕
+   - badge-could: 💎
+   ================================================================= */
+
+.badge-must {
+    background-color: #fef3c7;
+    color: #92400e;
+    padding: 4px 12px;
+    margin: 4px 0;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 0.875em;
+    border: 1px solid #d97706;
+    display: inline-block;
+}
+
+.badge-should {
+    background-color: #fed7aa;
+    color: #9a3412;
+    padding: 4px 12px;
+    margin: 4px 0;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 0.875em;
+    border: 1px solid #ea580c;
+    display: inline-block;
+}
+
+.badge-could {
+    background-color: #fecaca;
+    color: #991b1b;
+    padding: 4px 12px;
+    margin: 4px 0;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 0.875em;
+    border: 1px solid #dc2626;
+    display: inline-block;
+}
+
+/* =================================================================
+   INFO BOXES
+   Suggested emojis:
+   - info-learning-goals: 🎯 (learning intentions) / ✓ (success criteria)
+   - info-key-concept: 📘 (general) / 📖 (definitions)
+   - info-tip: 💡
+   - info-note: ⚠️ (warning) / 📌 (reminder) / ⚡ (common mistake) / ❗ (critical info)
+   - info-summary: 📋
+   ================================================================= */
+
+div.info-learning-goals {
+    padding: 0 20px;
+    margin: 20px 0;
+    border: 1px solid #0369a1;
+    border-left: 8px solid #0369a1;
+    border-radius: 8px;
+    background-color: #e0f2fe;
+}
+
+div.info-key-concept {
+    padding: 0 20px;
+    margin: 20px 0;
+    border: 1px solid #4f46e5;
+    border-left: 8px solid #4f46e5;
+    border-radius: 8px;
+    background-color: #e0e7ff;
+}
+
+div.info-tip {
+    padding: 0 20px;
+    padding-left: 24px;
+    margin: 20px 0;
+    border: 1px solid #ca8a04;
+    border-left: 8px solid #ca8a04;
+    border-radius: 8px;
+    background-color: #fef3c7;
+}
+
+div.info-note {
+    padding: 0 20px;
+    padding-left: 24px;
+    margin: 20px 0;
+    border: 1px solid #ea580c;
+    border-left: 8px solid #ea580c;
+    border-radius: 8px;
+    background-color: #ffedd5;
+}
+
+div.info-summary {
+    padding: 0 20px;
+    margin: 20px 0;
+    border: 1px solid #6b7280;
+    border-left: 8px solid #6b7280;
+    border-radius: 8px;
+    background-color: #f3f4f6;
+}
+
+/* =================================================================
+   EXAMPLE BOXES
+   Suggested emojis:
+   - example-good: ✅
+   - example-bad: ❌
+   ================================================================= */
+
+div.example-good {
+    padding: 0 20px;
+    margin: 20px 0;
+    border: 3px dashed #15803d;
+    border-radius: 8px;
+    background-color: #dcfce7;
+}
+
+div.example-bad {
+    padding: 0 20px;
+    margin: 20px 0;
+    border: 3px dashed #dc2626;
+    border-radius: 8px;
+    background-color: #fee2e2;
+}
+
+/* =================================================================
+   GENERAL DISCLOSURE BOXES/ACCORDIONS
+   ================================================================= */
+
+details {
+    padding: 0 20px;
+    margin: 20px 0;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: #ffffff;
+}
+
+summary {
+    padding: 16px 20px;
+    margin: -1px -20px -1px -20px;
+    border-bottom: 1px solid #d1d5db;
+    background-color: #f3f4f6;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+/* =================================================================
+   TASK DISCLOSURE BOXES/ACCORDIONS
+   ================================================================= */
+   
+details.task-practice {
+    border: 3px solid #1e40af;
+    background-color: #dbeafe;
+}
+
+details.task-practice > summary {
+    border-bottom: 1px solid #1e40af;
+    background-color: #dbeafe;
+}
+
+details.task-practice details {
+    border: 1px solid #d1d5db;
+    background-color: #ffffff;
+}
+
+details.task-practice details summary {
+    border-bottom: 1px solid #d1d5db;
+    background-color: #f3f4f6;
+}
+
+details.task-portfolio {
+    border: 3px solid #7c3aed;
+    background-color: #ede9fe;
+}
+
+details.task-portfolio > summary {
+    border-bottom: 1px solid #7c3aed;
+    background-color: #ede9fe;
+}
+
+details.task-portfolio details {
+    border: 1px solid #d1d5db;
+    background-color: #ffffff;
+}
+
+details.task-portfolio details summary {
+    border-bottom: 1px solid #d1d5db;
+    background-color: #f3f4f6;
+}
+
+details.task-quiz {
+    border: 3px solid #047857;
+    background-color: #d1fae5;
+}
+
+details.task-quiz > summary {
+    border-bottom: 1px solid #047857;
+    background-color: #d1fae5;
+}
+
+details.task-quiz details {
+    border: 1px solid #d1d5db;
+    background-color: #ffffff;
+}
+
+details.task-quiz details summary {
+    border-bottom: 1px solid #d1d5db;
+    background-color: #f3f4f6;
+}
+
+/* =================================================================
+   INFO DISCLOSURE BOXES/ACCORDIONS
+   ================================================================= */
+
+details.info-learning-goals {
+    border: 1px solid #0369a1;
+    border-left: 8px solid #0369a1;
+    background-color: #e0f2fe;
+}
+
+details.info-learning-goals summary {
+    border-bottom: 1px solid #0369a1;
+    background-color: #e0f2fe;
+}
+
+details.info-key-concept {
+    border: 1px solid #4f46e5;
+    border-left: 8px solid #4f46e5;
+    background-color: #e0e7ff;
+}
+
+details.info-key-concept summary {
+    border-bottom: 1px solid #4f46e5;
+    background-color: #e0e7ff;
+}
+
+details.info-tip {
+    border: 1px solid #ca8a04;
+    border-left: 8px solid #ca8a04;
+    background-color: #fef3c7;
+}
+
+details.info-tip summary {
+    border-bottom: 1px solid #ca8a04;
+    background-color: #fef3c7;
+}
+
+details.info-note {
+    border: 1px solid #ea580c;
+    border-left: 8px solid #ea580c;
+    background-color: #ffedd5;
+}
+
+details.info-note summary {
+    border-bottom: 1px solid #ea580c;
+    background-color: #ffedd5;
+}
+
+details.info-summary {
+    border: 1px solid #6b7280;
+    border-left: 8px solid #6b7280;
+    background-color: #f3f4f6;
+}
+
+details.info-summary summary {
+    border-bottom: 1px solid #6b7280;
+    background-color: #f3f4f6;
+}
+
+/* =================================================================
+   EXAMPLE DISCLOSURE BOXES/ACCORDIONS
+   ================================================================= */
+
+details.example-good {
+    border: 3px dashed #15803d;
+    background-color: #dcfce7;
+}
+
+details.example-good summary {
+    border-bottom: 1px solid #15803d;
+    background-color: #dcfce7;
+}
+
+details.example-bad {
+    border: 3px dashed #dc2626;
+    background-color: #fee2e2;
+}
+
+details.example-bad summary {
+    border-bottom: 1px solid #dc2626;
+    background-color: #fee2e2;
+}
+
+/* =================================================================
+   CANVAS TABS
+   ================================================================= */
+
+.enhanceable_content.tabs > ul {
+    list-style: none;
+    display: flex;
+    gap: 0;
+    margin: 20px 0 0 0;
+    padding: 0;
+}
+
+.enhanceable_content.tabs > ul > li {
+    margin: 0 4px 0 0;
+    background-color: #f3f4f6;
+    border: 1px solid #d1d5db;
+    border-bottom: none;
+    border-radius: 8px 8px 0 0;
+    overflow: hidden;
+}
+
+.enhanceable_content.tabs > ul > li:last-child {
+    margin: 0;
+}
+
+.enhanceable_content.tabs > ul > li a {
+    display: block;
+    padding: 12px 20px;
+    text-decoration: none;
+    color: #1f2937;
+    font-weight: 600;
+}
+
+.enhanceable_content.tabs > div {
+    padding: 20px;
+    margin: 0 0 20px 0;
+    border: 1px solid #d1d5db;
+    border-radius: 0 8px 8px 8px;
+    background-color: #ffffff;
+}
+
+/* Task Practice Tabs */
+.enhanceable_content.tabs > ul > li.task-practice {
+    background-color: #dbeafe;
+    border: 3px solid #1e40af;
+    border-bottom: none;
+}
+
+.enhanceable_content.tabs > ul > li.task-practice a {
+    color: #1e40af;
+}
+
+.enhanceable_content.tabs > div.task-practice {
+    padding: 0 20px;
+    border: 3px solid #1e40af;
+    background-color: #dbeafe;
+}
+
+/* Task Portfolio Tabs */
+.enhanceable_content.tabs > ul > li.task-portfolio {
+    background-color: #ede9fe;
+    border: 3px solid #7c3aed;
+    border-bottom: none;
+}
+
+.enhanceable_content.tabs > ul > li.task-portfolio a {
+    color: #7c3aed;
+}
+
+.enhanceable_content.tabs > div.task-portfolio {
+    padding: 0 20px;
+    border: 3px solid #7c3aed;
+    background-color: #ede9fe;
+}
+
+/* Task Quiz Tabs */
+.enhanceable_content.tabs > ul > li.task-quiz {
+    background-color: #d1fae5;
+    border: 3px solid #047857;
+    border-bottom: none;
+}
+
+.enhanceable_content.tabs > ul > li.task-quiz a {
+    color: #047857;
+}
+
+.enhanceable_content.tabs > div.task-quiz {
+    padding: 0 20px;
+    border: 3px solid #047857;
+    background-color: #d1fae5;
+}
+
+/* Info Learning Goals Tabs */
+.enhanceable_content.tabs > ul > li.info-learning-goals {
+    background-color: #e0f2fe;
+    border: 1px solid #0369a1;
+    border-left: 8px solid #0369a1;
+    border-bottom: none;
+}
+
+.enhanceable_content.tabs > ul > li.info-learning-goals a {
+    color: #0369a1;
+}
+
+.enhanceable_content.tabs > div.info-learning-goals {
+    padding: 0 20px;
+    border: 1px solid #0369a1;
+    border-left: 8px solid #0369a1;
+    background-color: #e0f2fe;
+}
+
+/* Info Key Concept Tabs */
+.enhanceable_content.tabs > ul > li.info-key-concept {
+    background-color: #e0e7ff;
+    border: 1px solid #4f46e5;
+    border-left: 8px solid #4f46e5;
+    border-bottom: none;
+}
+
+.enhanceable_content.tabs > ul > li.info-key-concept a {
+    color: #4f46e5;
+}
+
+.enhanceable_content.tabs > div.info-key-concept {
+    padding: 0 20px;
+    border: 1px solid #4f46e5;
+    border-left: 8px solid #4f46e5;
+    background-color: #e0e7ff;
+}
+
+/* Info Tip Tabs */
+.enhanceable_content.tabs > ul > li.info-tip {
+    background-color: #fef3c7;
+    border: 1px solid #ca8a04;
+    border-left: 8px solid #ca8a04;
+    border-bottom: none;
+}
+
+.enhanceable_content.tabs > ul > li.info-tip a {
+    color: #ca8a04;
+}
+
+.enhanceable_content.tabs > div.info-tip {
+    padding: 0 20px;
+    border: 1px solid #ca8a04;
+    border-left: 8px solid #ca8a04;
+    background-color: #fef3c7;
+}
+
+/* Info Note Tabs */
+.enhanceable_content.tabs > ul > li.info-note {
+    background-color: #ffedd5;
+    border: 1px solid #ea580c;
+    border-left: 8px solid #ea580c;
+    border-bottom: none;
+}
+
+.enhanceable_content.tabs > ul > li.info-note a {
+    color: #ea580c;
+}
+
+.enhanceable_content.tabs > div.info-note {
+    padding: 0 20px;
+    border: 1px solid #ea580c;
+    border-left: 8px solid #ea580c;
+    background-color: #ffedd5;
+}
+
+/* Info Summary Tabs */
+.enhanceable_content.tabs > ul > li.info-summary {
+    background-color: #f3f4f6;
+    border: 1px solid #6b7280;
+    border-left: 8px solid #6b7280;
+    border-bottom: none;
+}
+
+.enhanceable_content.tabs > ul > li.info-summary a {
+    color: #6b7280;
+}
+
+.enhanceable_content.tabs > div.info-summary {
+    padding: 0 20px;
+    border: 1px solid #6b7280;
+    border-left: 8px solid #6b7280;
+    background-color: #f3f4f6;
+}
+
+/* Example Good Tabs */
+.enhanceable_content.tabs > ul > li.example-good {
+    background-color: #dcfce7;
+    border: 3px dashed #15803d;
+    border-bottom: none;
+}
+
+.enhanceable_content.tabs > ul > li.example-good a {
+    color: #15803d;
+}
+
+.enhanceable_content.tabs > div.example-good {
+    padding: 0 20px;
+    border: 3px dashed #15803d;
+    background-color: #dcfce7;
+}
+
+/* Example Bad Tabs */
+.enhanceable_content.tabs > ul > li.example-bad {
+    background-color: #fee2e2;
+    border: 3px dashed #dc2626;
+    border-bottom: none;
+}
+
+.enhanceable_content.tabs > ul > li.example-bad a {
+    color: #dc2626;
+}
+
+.enhanceable_content.tabs > div.example-bad {
+    padding: 0 20px;
+    border: 3px dashed #dc2626;
+    background-color: #fee2e2;
+}
+
+/* =================================================================
+   BUTTONS
+   ================================================================= */
+
+.button {
+    display: inline-block;
+    padding: 12px 24px;
+    margin: 20px 20px 20px 0;
+    background-color: #e5e7eb;
+    color: #1f2937;
+    text-decoration: none;
+    border-radius: 6px;
+    border-top: 2px solid #f3f4f6;
+    border-left: 2px solid #f3f4f6;
+    border-right: 2px solid #9ca3af;
+    border-bottom: 2px solid #9ca3af;
+    font-weight: 600;
+    box-shadow: 0 3px 0 #9ca3af;
+}
+
+.task-practice .button {
+    background-color: #1e40af;
+    color: white;
+    border-top: 2px solid #3b82f6;
+    border-left: 2px solid #3b82f6;
+    border-right: 2px solid #1e3a8a;
+    border-bottom: 2px solid #1e3a8a;
+    box-shadow: 0 3px 0 #1e3a8a;
+}
+
+.task-portfolio .button {
+    background-color: #7c3aed;
+    color: white;
+    border-top: 2px solid #a855f7;
+    border-left: 2px solid #a855f7;
+    border-right: 2px solid #6d28d9;
+    border-bottom: 2px solid #6d28d9;
+    box-shadow: 0 3px 0 #6d28d9;
+}
+
+.task-quiz .button {
+    background-color: #047857;
+    color: white;
+    border-top: 2px solid #10b981;
+    border-left: 2px solid #10b981;
+    border-right: 2px solid #065f46;
+    border-bottom: 2px solid #065f46;
+    box-shadow: 0 3px 0 #065f46;
+}

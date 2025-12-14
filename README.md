@@ -253,6 +253,102 @@ python ../build_from_template.py .
 
 Output: `biology-101.imscc` ready for Canvas import
 
+### External CSS Support
+
+The template includes a **comprehensive CSS styling system** (`canvas-course.css`) with pre-built components for creating professional course content. The build tool automatically inlines CSS and removes `<link>` tags (Canvas doesn't support external CSS).
+
+**Template Structure:**
+```
+my-course/
+├── css/
+│   └── canvas-course.css    # Complete styling system
+├── wiki_content/
+│   ├── welcome_TEMPLATE.html         # Home page example
+│   ├── styling-guide-*_TEMPLATE.html # Documentation & examples
+│   └── ...
+├── assignments/
+└── ...
+```
+
+**Using the CSS System:**
+
+The template includes ready-to-use components:
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="../css/canvas-course.css">
+</head>
+<body>
+    <!-- Info Box for Learning Goals -->
+    <div class="info-learning-goals">
+        <h3>Learning Intentions</h3>
+        <p>Students will understand...</p>
+    </div>
+
+    <!-- Task Accordion for Practice -->
+    <details class="task-practice">
+        <summary><h2>Practice Exercise</h2></summary>
+        <p>Complete the following tasks...</p>
+    </details>
+
+    <!-- Canvas Native Tabs -->
+    <div class="enhanceable_content tabs">
+        <ul>
+            <li class="green"><a href="#tab1">Good Example</a></li>
+            <li class="red"><a href="#tab2">Bad Example</a></li>
+        </ul>
+        <div id="tab1">Content for good example</div>
+        <div id="tab2">Content for bad example</div>
+    </div>
+</body>
+</html>
+```
+
+**Available Components:**
+
+- **Info Boxes:** `info-learning-goals`, `info-key-concept`, `info-tip`, `info-note`, `info-summary`
+- **Task Accordions:** `task-practice`, `task-portfolio`, `task-quiz`
+- **Priority Badges:** `priority-must`, `priority-should`, `priority-could`
+- **Example Boxes:** `example-good`, `example-bad`
+- **Canvas Tabs:** Native `.enhanceable_content.tabs` with color themes
+- **Tables & Accordions:** Pre-styled for consistency
+
+**Build Process:**
+
+The build tool automatically:
+1. Parses linked CSS files
+2. Inlines styles to matching elements
+3. Preserves existing inline styles (they take precedence)
+4. Removes `<link>` tags and document structure
+5. Extracts body content for Canvas
+
+**Result in IMSCC:**
+```html
+<div class="info-learning-goals" style="background-color: #e0f7fa; border-left: 5px solid #00acc1; ...">
+    <h3 style="color: #00838f; margin-top: 0; ...">Learning Intentions</h3>
+    <p style="margin-bottom: 0;">Students will understand...</p>
+</div>
+```
+
+**Benefits:**
+- Professional, consistent styling across all content
+- Edit styles centrally in one CSS file
+- Local preview works perfectly (view HTML files in browser)
+- Automatically converted for Canvas compatibility
+- Complete documentation and examples included
+
+**Selector Support:**
+- Element selectors: `h1`, `p`, `div`
+- Class selectors: `.info-box`, `.task-practice`  
+- ID selectors: `#header`
+- Combined: `div.container`, `details.task-quiz`
+- Multiple selectors: `h1, h2, h3`
+- Child combinator: `details.task-practice > h1` (direct children only)
+
+**Note:** Complex selectors (descendant, sibling, pseudo-classes) use simplified matching. The template's CSS is designed to work reliably with Canvas's inline style requirements.
+
 ### Link Auto-Conversion
 
 Local links work for preview, then convert automatically:
@@ -284,6 +380,22 @@ Example:
 - Link identifier: `week-01-homework`
 
 The assignment identifier is set automatically from the filename during build.
+
+**Quiz Links:**
+
+To link to quizzes from pages, use the same Canvas format:
+
+```html
+<a href="$CANVAS_OBJECT_REFERENCE$/quizzes/week-01-review">Week 1 Review</a>
+```
+
+**Important:** Use the quiz's JSON filename (without `.json`) as the identifier.
+
+Example:
+- Quiz file: `quizzes/week-01-review.json`
+- Link identifier: `week-01-review`
+
+The quiz identifier is set automatically from the filename during build.
 
 ---
 

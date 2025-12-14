@@ -1,0 +1,59 @@
+{
+  "modules": [
+    {
+      "title": "📚 Course Information",
+      "items": [
+        {
+          "type": "page",
+          "id": "welcome_TEMPLATE",
+          "indent": 0
+        }
+      ]
+    },
+    {
+      "title": "🎨 Styling Guides",
+      "items": [
+        {
+          "type": "page",
+          "id": "styling-guide-1-styles_TEMPLATE",
+          "indent": 0
+        },
+        {
+          "type": "page",
+          "id": "styling-guide-2-interactive_TEMPLATE",
+          "indent": 0
+        }
+      ]
+    },
+    {
+      "title": "📖 Example Lessons",
+      "items": [
+        {
+          "type": "page",
+          "id": "styling-guide-3-example_TEMPLATE",
+          "indent": 0
+        }
+      ]
+    },
+    {
+      "title": "✏️ Example Assignments",
+      "items": [
+        {
+          "type": "assignment",
+          "id": "comprehensive-assignment_TEMPLATE",
+          "indent": 0
+        }
+      ]
+    },
+    {
+      "title": "📝 Example Quizzes",
+      "items": [
+        {
+          "type": "quiz",
+          "id": "comprehensive-quiz_TEMPLATE",
+          "indent": 0
+        }
+      ]
+    }
+  ]
+}

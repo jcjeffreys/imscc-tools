@@ -1,0 +1,165 @@
+{
+  "title": "Comprehensive Rubric with Rating Descriptions",
+  "criteria": [
+    {
+      "description": "Content Quality",
+      "long_description": "Depth, accuracy, and relevance of content provided",
+      "points": 25,
+      "ratings": [
+        {
+          "description": "Exemplary",
+          "long_description": "Content is exceptionally thorough, highly accurate, and demonstrates deep understanding. All required elements are present and exceed expectations.",
+          "points": 25
+        },
+        {
+          "description": "Proficient",
+          "long_description": "Content is complete, accurate, and demonstrates solid understanding. All required elements are present and meet expectations.",
+          "points": 20
+        },
+        {
+          "description": "Developing",
+          "long_description": "Content is mostly complete but may have minor inaccuracies or gaps. Most required elements are present.",
+          "points": 15
+        },
+        {
+          "description": "Beginning",
+          "long_description": "Content has significant gaps or inaccuracies. Several required elements are missing or incomplete.",
+          "points": 10
+        },
+        {
+          "description": "Incomplete",
+          "long_description": "Content is minimal, largely inaccurate, or missing most required elements.",
+          "points": 0
+        }
+      ]
+    },
+    {
+      "description": "Organization & Structure",
+      "long_description": "Logical flow, clear structure, and effective organization of ideas",
+      "points": 20,
+      "ratings": [
+        {
+          "description": "Exemplary",
+          "long_description": "Exceptionally well-organized with clear, logical flow. Ideas are presented in a coherent sequence that enhances understanding.",
+          "points": 20
+        },
+        {
+          "description": "Proficient",
+          "long_description": "Well-organized with good flow. Ideas follow a logical sequence and are easy to follow.",
+          "points": 16
+        },
+        {
+          "description": "Developing",
+          "long_description": "Generally organized but may have some unclear transitions or sequencing issues.",
+          "points": 12
+        },
+        {
+          "description": "Beginning",
+          "long_description": "Poorly organized with unclear structure. Ideas are difficult to follow.",
+          "points": 8
+        },
+        {
+          "description": "Incomplete",
+          "long_description": "No clear organization or structure evident.",
+          "points": 0
+        }
+      ]
+    },
+    {
+      "description": "Analysis & Critical Thinking",
+      "long_description": "Demonstration of analytical skills and critical evaluation",
+      "points": 25,
+      "ratings": [
+        {
+          "description": "Exemplary",
+          "long_description": "Demonstrates exceptional analytical skills. Provides insightful connections, evaluates multiple perspectives, and draws well-supported conclusions.",
+          "points": 25
+        },
+        {
+          "description": "Proficient",
+          "long_description": "Demonstrates solid analytical skills. Makes relevant connections and draws appropriate conclusions supported by evidence.",
+          "points": 20
+        },
+        {
+          "description": "Developing",
+          "long_description": "Demonstrates basic analytical skills. Some connections are made but analysis may be superficial or incomplete.",
+          "points": 15
+        },
+        {
+          "description": "Beginning",
+          "long_description": "Minimal analytical thinking evident. Analysis is superficial or lacks supporting evidence.",
+          "points": 10
+        },
+        {
+          "description": "Incomplete",
+          "long_description": "No analytical thinking or critical evaluation evident.",
+          "points": 0
+        }
+      ]
+    },
+    {
+      "description": "Writing Quality",
+      "long_description": "Grammar, spelling, punctuation, and overall writing mechanics",
+      "points": 15,
+      "ratings": [
+        {
+          "description": "Exemplary",
+          "long_description": "Writing is clear, concise, and error-free. Excellent command of grammar, spelling, and punctuation.",
+          "points": 15
+        },
+        {
+          "description": "Proficient",
+          "long_description": "Writing is clear with minimal errors. Good command of grammar, spelling, and punctuation.",
+          "points": 12
+        },
+        {
+          "description": "Developing",
+          "long_description": "Writing is generally clear but contains some errors that may distract from meaning.",
+          "points": 9
+        },
+        {
+          "description": "Beginning",
+          "long_description": "Writing contains numerous errors that interfere with understanding.",
+          "points": 6
+        },
+        {
+          "description": "Incomplete",
+          "long_description": "Writing quality is very poor with pervasive errors.",
+          "points": 0
+        }
+      ]
+    },
+    {
+      "description": "Use of Evidence & Citations",
+      "long_description": "Appropriate use of sources and proper citation format",
+      "points": 15,
+      "ratings": [
+        {
+          "description": "Exemplary",
+          "long_description": "Excellent use of relevant, credible sources. All citations are properly formatted and integrated smoothly into the text.",
+          "points": 15
+        },
+        {
+          "description": "Proficient",
+          "long_description": "Good use of relevant sources. Citations are generally proper with minor formatting issues.",
+          "points": 12
+        },
+        {
+          "description": "Developing",
+          "long_description": "Adequate use of sources but may lack variety or credibility. Some citation errors present.",
+          "points": 9
+        },
+        {
+          "description": "Beginning",
+          "long_description": "Minimal use of sources or frequent citation errors. Sources may lack credibility.",
+          "points": 6
+        },
+        {
+          "description": "Incomplete",
+          "long_description": "No sources cited or pervasive citation problems.",
+          "points": 0
+        }
+      ]
+    }
+  ]
+}

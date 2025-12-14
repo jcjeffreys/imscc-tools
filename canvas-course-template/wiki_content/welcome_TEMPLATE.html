@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome</title>
+    <link rel="stylesheet" href="../css/canvas-course.css">
+</head>
+<body>
+
+<!-- Course Banner - Customize colors, image, and text for each course -->
+<div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 40px 30px; border-radius: 8px; margin-bottom: 30px; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+    <h1 style="margin: 0 0 10px 0; font-size: 2.5em; font-weight: bold;">🎓 Welcome to [Course Name]</h1>
+    <p style="margin: 0; font-size: 1.2em; opacity: 0.95;">[Course Code] • [Semester/Year]</p>
+</div>
+
+<div class="info-learning-goals">
+    <h2>🎯 Course Overview</h2>
+    <p>Welcome to [Course Name]! This course will guide you through [brief description of course topics and goals]. By the end of this course, you will be able to [key learning outcomes].</p>
+    <p><em>This welcome page demonstrates the <strong>info-learning-goals</strong> component with cyan background - perfect for course objectives and learning intentions.</em></p>
+</div>
+
+<h2>📚 Getting Started</h2>
+<p>Here's what you need to know to succeed in this course:</p>
+
+<details open>
+    <summary>📋 Essential Information</summary>
+    
+    <h3>Key Resources</h3>
+    <p><em>These links demonstrate file linking - they point to files in the <code>web_resources/</code> folder. When exported to Canvas, they automatically convert to Canvas file references.</em></p>
+    <ul>
+        <li><strong>Course Syllabus:</strong> <a href="../web_resources/syllabus_TEMPLATE.txt">Download here</a> (example text file)</li>
+        <li><strong>Weekly Readings:</strong> <a href="../web_resources/week1-reading_TEMPLATE.txt">Week 1 Reading</a> (example text file)</li>
+        <li><strong>Additional Resources:</strong> <a href="../web_resources/resources_TEMPLATE.txt">Helpful links and references</a> (example text file)</li>
+    </ul>
+    
+    <h3>Communication</h3>
+    <ul>
+        <li><strong>Office Hours:</strong> [Days/Times] or by appointment</li>
+        <li><strong>Email:</strong> [instructor@email.com]</li>
+        <li><strong>Response Time:</strong> Within 24-48 hours on weekdays</li>
+    </ul>
+    
+    <p><em>This accordion is using the default <code>&lt;details&gt;</code> styling - clean and simple for organizing content.</em></p>
+</details>
+
+<details>
+    <summary>✅ Weekly Routine</summary>
+    
+    <p><em>Priority badges help students understand what's essential using the MoSCoW method. These are <code>&lt;div&gt;</code> elements with classes <code>badge-must</code> and <code>badge-should</code>.</em></p>
+    
+    <div class="badge-must">⭐ MUST DO - Every Week</div>
+    <ul>
+        <li>Review the module content and complete assigned readings</li>
+        <li>Watch any video lectures or demonstrations</li>
+        <li>Complete practice exercises to reinforce concepts</li>
+        <li>Submit assignments by the due date</li>
+    </ul>
+    
+    <div class="badge-should">➕ SHOULD DO - For Success</div>
+    <ul>
+        <li>Participate in discussion forums</li>
+        <li>Attend live sessions or office hours</li>
+        <li>Review feedback on submitted work</li>
+        <li>Stay ahead of the schedule when possible</li>
+    </ul>
+</details>
+
+<details>
+    <summary>🎯 Assessment Overview</summary>
+    
+    <p><em>Tables are styled with hover effects and clear formatting - perfect for displaying structured data like assessment breakdowns.</em></p>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>Assessment Type</th>
+                <th>Weight</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Quizzes</strong></td>
+                <td>20%</td>
+                <td>Weekly knowledge checks</td>
+            </tr>
+            <tr>
+                <td><strong>Assignments</strong></td>
+                <td>40%</td>
+                <td>Practical application tasks</td>
+            </tr>
+            <tr>
+                <td><strong>Projects</strong></td>
+                <td>30%</td>
+                <td>Portfolio pieces demonstrating mastery</td>
+            </tr>
+            <tr>
+                <td><strong>Participation</strong></td>
+                <td>10%</td>
+                <td>Engagement and contribution</td>
+            </tr>
+        </tbody>
+    </table>
+</details>
+
+<div class="info-tip">
+    <h3>💡 Pro Tips for Success</h3>
+    <p><em>The <strong>info-tip</strong> component (yellow background) is great for helpful advice and best practices.</em></p>
+    <ul>
+        <li><strong>Stay Organized:</strong> Use the course calendar to track deadlines</li>
+        <li><strong>Ask Questions:</strong> Don't hesitate to reach out if you're stuck</li>
+        <li><strong>Practice Regularly:</strong> Consistent effort leads to better understanding</li>
+        <li><strong>Collaborate:</strong> Learn from your peers in discussion forums</li>
+    </ul>
+</div>
+
+<div class="info-note">
+    <h3>⚠️ Template Notice</h3>
+    <p><em>The <strong>info-note</strong> component (orange background) draws attention to important information and warnings.</em></p>
+    <p>This is a template course. Files marked with <code>_TEMPLATE</code> are examples to help you build your course:</p>
+    <ul>
+        <li>Replace placeholder content with your actual course information</li>
+        <li>Customize the banner colors and text above to match your course theme</li>
+        <li>Delete or rename files ending in <code>_TEMPLATE.html</code>, <code>_TEMPLATE.txt</code>, or <code>_TEMPLATE.json</code></li>
+        <li>Keep them as reference while developing your content</li>
+    </ul>
+</div>
+
+<h2>🎨 Complete Styling Reference</h2>
+<p><strong>Important:</strong> This page demonstrates several CSS components, but there are many more available! Check out the comprehensive styling guides:</p>
+<ul>
+    <li><a href="styling-guide-1-styles_TEMPLATE.html">Styling Guide 1: General & Specific Styles</a> - Typography, task boxes, info boxes, example boxes, tables, buttons, blockquotes, and priority badges</li>
+    <li><a href="styling-guide-2-interactive_TEMPLATE.html">Styling Guide 2: Interactive Elements</a> - Accordions and tabs with styling options</li>
+</ul>
+
+<h2>🚀 Next Steps</h2>
+<p>Ready to begin? Start with <a href="styling-guide-3-example_TEMPLATE.html">Styling Guide 3: Complete Lesson Example</a> to see more course content examples, or explore the styling guides above to learn all available CSS classes.</p>
+
+<div style="text-align: center; margin-top: 40px; padding-top: 20px; border-top: 2px solid #e5e7eb;">
+    <p style="color: #6b7280; font-size: 0.9em;">📧 Questions? Contact [instructor@email.com] | 🕐 Office Hours: [Days/Times]</p>
+</div>
+
+</body>
+</html>

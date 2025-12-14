@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Styling Guide 2: Interactive Elements</title>
+    <link rel="stylesheet" href="../css/canvas-course.css">
+</head>
+<body>
+    <!-- CANVAS_META
+    title: Styling Guide 2: Interactive Elements
+    -->
+
+    <h1>🎛️ Styling Guide 2: Interactive Elements</h1>
+    <p>Learn how to use accordions (disclosure boxes) and tabs to create collapsible and organized content.</p>
+
+    <hr>
+
+    <h2>Basic Accordions</h2>
+    <p>Accordions (disclosure boxes) let students expand and collapse content. Use the <code>&lt;details&gt;</code> and <code>&lt;summary&gt;</code> HTML elements.</p>
+
+    <h3>Default Accordion</h3>
+    <details>
+        <summary>Click to expand</summary>
+        <p>This is a basic accordion with default styling. It has a gray border and background.</p>
+        <p><strong>HTML Structure:</strong></p>
+        <pre><code>&lt;details&gt;
+    &lt;summary&gt;Click to expand&lt;/summary&gt;
+    &lt;p&gt;Content goes here...&lt;/p&gt;
+&lt;/details&gt;</code></pre>
+    </details>
+
+    <details>
+        <summary>Accordion with Multiple Elements</summary>
+        <h4>Multiple Content Types</h4>
+        <p>Accordions can contain any HTML content:</p>
+        <ul>
+            <li>Paragraphs and text</li>
+            <li>Lists (ordered and unordered)</li>
+            <li>Code blocks</li>
+            <li>Images and media</li>
+            <li>Even nested styled boxes!</li>
+        </ul>
+        <pre><code>def greet(name):
+    return f"Hello, {name}!"</code></pre>
+    </details>
+
+    <hr>
+
+    <h2>Styled Task Accordions</h2>
+    <p>Add task classes to <code>&lt;details&gt;</code> elements to create themed disclosure boxes.</p>
+
+    <details class="task-practice">
+        <summary>✏️ Practice Exercise: Variables</summary>
+        <h3>✏️ Exercise 1: Create Variables</h3>
+        <p>Create three variables to store information about a book:</p>
+        <ol>
+            <li>A string variable called <code>book_title</code></li>
+            <li>A string variable called <code>author</code></li>
+            <li>An integer variable called <code>year_published</code></li>
+        </ol>
+        <p><strong>Class:</strong> <code>class="task-practice"</code> on the <code>&lt;details&gt;</code> element.</p>
+        <a href="#" class="button">Check Solution</a>
+    </details>
+
+    <details class="task-portfolio">
+        <summary>📁 Portfolio Task: Personal Profile Program</summary>
+        <h3>📁 Project Requirements</h3>
+        <p>Create a Python program that displays your personal profile using at least 5 variables.</p>
+        <p><strong>Must Include:</strong></p>
+        <ul>
+            <li>Your name, age, and grade</li>
+            <li>At least 2 hobbies or interests</li>
+            <li>Formatted output using f-strings</li>
+            <li>Proper variable naming conventions</li>
+        </ul>
+        <p><strong>Class:</strong> <code>class="task-portfolio"</code> on the <code>&lt;details&gt;</code> element.</p>
+        <a href="#" class="button">Submit Work</a>
+    </details>
+
+    <details class="task-quiz">
+        <summary>📝 Quiz Preparation Checklist</summary>
+        <h3>📝 Before You Start the Quiz</h3>
+        <p>Make sure you can:</p>
+        <ol>
+            <li>Define what a variable is</li>
+            <li>Create variables of different types</li>
+            <li>Follow Python naming conventions</li>
+            <li>Understand the difference between mutable and immutable types</li>
+            <li>Use variables in expressions and print statements</li>
+        </ol>
+        <p><strong>Class:</strong> <code>class="task-quiz"</code> on the <code>&lt;details&gt;</code> element.</p>
+        <a href="#" class="button">Start Quiz</a>
+    </details>
+
+    <hr>
+
+    <h2>Styled Info Accordions</h2>
+    <p>Add info classes to create themed disclosure boxes for different types of information.</p>
+
+    <details class="info-learning-goals">
+        <summary>🎯 Learning Goals</summary>
+        <h3>🎯 What You'll Learn Today</h3>
+        <p><strong>Learning Intentions:</strong></p>
+        <ul>
+            <li>Understand what variables are and why they're important</li>
+            <li>Learn Python's built-in data types</li>
+            <li>Practice creating and using variables</li>
+        </ul>
+        <p><strong>Success Criteria:</strong></p>
+        <ul>
+            <li>I can create variables of different types</li>
+            <li>I can use meaningful variable names</li>
+            <li>I can explain the difference between data types</li>
+        </ul>
+        <p><strong>Class:</strong> <code>class="info-learning-goals"</code></p>
+    </details>
+
+    <details class="info-key-concept">
+        <summary>📘 Key Concept: What is a Variable?</summary>
+        <h3>📖 Understanding Variables</h3>
+        <p>A <strong>variable</strong> is a named container that stores a value in your computer's memory. Think of it like a labeled box where you can put information.</p>
+        <p><strong>Example:</strong></p>
+        <pre><code>student_name = "Alice"
+student_age = 16
+student_grade = 10</code></pre>
+        <p>In this example, we created three "boxes" (variables) and put different pieces of information in them.</p>
+        <p><strong>Class:</strong> <code>class="info-key-concept"</code></p>
+    </details>
+
+    <details class="info-tip">
+        <summary>💡 Variable Naming Best Practices</summary>
+        <h3>💡 Tips for Great Variable Names</h3>
+        <ul>
+            <li><strong>Be descriptive:</strong> <code>student_count</code> not <code>sc</code></li>
+            <li><strong>Use snake_case:</strong> <code>first_name</code> not <code>firstName</code></li>
+            <li><strong>Avoid abbreviations:</strong> <code>temperature</code> not <code>temp</code></li>
+            <li><strong>Start with lowercase:</strong> <code>name</code> not <code>Name</code></li>
+            <li><strong>No reserved words:</strong> Don't use <code>class</code>, <code>if</code>, <code>for</code>, etc.</li>
+        </ul>
+        <p><strong>Class:</strong> <code>class="info-tip"</code></p>
+    </details>
+
+    <details class="info-note">
+        <summary>⚠️ Common Mistakes to Avoid</summary>
+        <h3>⚡ Watch Out For These Errors</h3>
+        <p><strong>1. Using spaces in variable names:</strong></p>
+        <div class="example-bad">
+            <pre><code>student name = "Alice"  # ❌ ERROR!</code></pre>
+        </div>
+        <div class="example-good">
+            <pre><code>student_name = "Alice"  # ✅ Correct</code></pre>
+        </div>
+        
+        <p><strong>2. Starting with numbers:</strong></p>
+        <div class="example-bad">
+            <pre><code>1st_place = "Alice"  # ❌ ERROR!</code></pre>
+        </div>
+        <div class="example-good">
+            <pre><code>first_place = "Alice"  # ✅ Correct</code></pre>
+        </div>
+        
+        <p><strong>Class:</strong> <code>class="info-note"</code></p>
+    </details>
+
+    <details class="info-summary">
+        <summary>📋 Lesson Summary</summary>
+        <h3>📋 What We Learned</h3>
+        <p>In this lesson, we covered:</p>
+        <ul>
+            <li>Variables are named containers for storing data</li>
+            <li>Python has several built-in data types (str, int, float, bool, etc.)</li>
+            <li>Variable names should be descriptive and follow conventions</li>
+            <li>Type matters when performing operations</li>
+        </ul>
+        <p><strong>Next Steps:</strong> Practice creating variables in different contexts!</p>
+        <p><strong>Class:</strong> <code>class="info-summary"</code></p>
+    </details>
+
+    <hr>
+
+    <h2>Styled Example Accordions</h2>
+    <p>Use example classes to show correct vs. incorrect approaches in collapsible format.</p>
+
+    <details class="example-good">
+        <summary>✅ Good Example: Proper Variable Usage</summary>
+        <h3>✅ Well-Named, Well-Structured Variables</h3>
+        <pre><code># Student information
+student_first_name = "Alice"
+student_last_name = "Johnson"
+student_age = 16
+student_grade = 10
+is_honor_roll = True
+
+# Calculate and display
+print(f"Student: {student_first_name} {student_last_name}")
+print(f"Age: {student_age}, Grade: {student_grade}")
+print(f"Honor Roll: {is_honor_roll}")</code></pre>
+        <p><strong>Why this is good:</strong></p>
+        <ul>
+            <li>Descriptive variable names</li>
+            <li>Follows snake_case convention</li>
+            <li>Uses appropriate data types</li>
+            <li>Well-organized and readable</li>
+        </ul>
+        <p><strong>Class:</strong> <code>class="example-good"</code></p>
+    </details>
+
+    <details class="example-bad">
+        <summary>❌ Bad Example: Poor Variable Usage</summary>
+        <h3>❌ Poorly-Named, Unclear Variables</h3>
+        <pre><code># Unclear variable names
+x = "Alice"
+y = "Johnson"
+z = 16
+a = 10
+b = True
+
+# Confusing output
+print(f"Student: {x} {y}")
+print(f"Age: {z}, Grade: {a}")
+print(f"Honor Roll: {b}")</code></pre>
+        <p><strong>Why this is bad:</strong></p>
+        <ul>
+            <li>Single-letter names provide no context</li>
+            <li>Difficult to understand what each variable represents</li>
+            <li>Hard to maintain and debug</li>
+            <li>Not self-documenting</li>
+        </ul>
+        <p><strong>Class:</strong> <code>class="example-bad"</code></p>
+    </details>
+
+    <hr>
+
+    <h2>Canvas Tabs</h2>
+    <p>Tabs organize content into separate panels. Add classes to <strong>both</strong> the <code>&lt;li&gt;</code> tab and the <code>&lt;div&gt;</code> content panel.</p>
+
+    <h3>Default Tabs (No Styling)</h3>
+    <div class="enhanceable_content tabs">
+        <ul>
+            <li><a href="#intro">Introduction</a></li>
+            <li><a href="#content">Main Content</a></li>
+            <li><a href="#conclusion">Conclusion</a></li>
+        </ul>
+        <div id="intro">
+            <h3>Introduction</h3>
+            <p>This is a basic tab group with no styling classes applied. All tabs have default gray styling.</p>
+        </div>
+        <div id="content">
+            <h3>Main Content</h3>
+            <p>Use default tabs when you don't need to emphasize the content type.</p>
+        </div>
+        <div id="conclusion">
+            <h3>Conclusion</h3>
+            <p>Default tabs work well for general organizational purposes.</p>
+        </div>
+    </div>
+
+    <h3>Task Tabs</h3>
+    <div class="enhanceable_content tabs">
+        <ul>
+            <li class="task-practice"><a href="#practice1">✏️ Practice</a></li>
+            <li class="task-portfolio"><a href="#portfolio1">📁 Portfolio</a></li>
+            <li class="task-quiz"><a href="#quiz1">📝 Quiz</a></li>
+        </ul>
+        <div id="practice1" class="task-practice">
+            <h3>✏️ Practice: Variable Types</h3>
+            <p>Create variables of each type:</p>
+            <ul>
+                <li>String: <code>name</code></li>
+                <li>Integer: <code>age</code></li>
+                <li>Float: <code>height</code></li>
+                <li>Boolean: <code>is_student</code></li>
+            </ul>
+            <p><strong>Classes:</strong> <code>task-practice</code> on both <code>&lt;li&gt;</code> and <code>&lt;div&gt;</code></p>
+            <a href="#" class="button">Start Practice</a>
+        </div>
+        <div id="portfolio1" class="task-portfolio">
+            <h3>📁 Portfolio: Data Type Explorer</h3>
+            <p>Create a program that demonstrates all Python data types with examples.</p>
+            <p><strong>Classes:</strong> <code>task-portfolio</code> on both <code>&lt;li&gt;</code> and <code>&lt;div&gt;</code></p>
+            <a href="#" class="button">View Requirements</a>
+        </div>
+        <div id="quiz1" class="task-quiz">
+            <h3>📝 Quiz: Variables & Types</h3>
+            <p>Test your understanding of variables and data types.</p>
+            <p><strong>Classes:</strong> <code>task-quiz</code> on both <code>&lt;li&gt;</code> and <code>&lt;div&gt;</code></p>
+            <a href="#" class="button">Start Quiz</a>
+        </div>
+    </div>
+
+    <h3>Info Tabs</h3>
+    <div class="enhanceable_content tabs">
+        <ul>
+            <li class="info-key-concept"><a href="#concept1">📘 Concept</a></li>
+            <li class="info-tip"><a href="#tips1">💡 Tips</a></li>
+            <li class="info-note"><a href="#warnings1">⚠️ Warnings</a></li>
+        </ul>
+        <div id="concept1" class="info-key-concept">
+            <h3>📘 Key Concept: Type Conversion</h3>
+            <p>Python allows you to convert between types:</p>
+            <pre><code># String to integer
+age = int("16")
+
+# Integer to string
+age_text = str(16)
+
+# String to float
+price = float("19.99")</code></pre>
+            <p><strong>Classes:</strong> <code>info-key-concept</code> on both <code>&lt;li&gt;</code> and <code>&lt;div&gt;</code></p>
+        </div>
+        <div id="tips1" class="info-tip">
+            <h3>💡 Type Conversion Tips</h3>
+            <ul>
+                <li>Always validate input before converting</li>
+                <li>Use <code>try/except</code> to handle conversion errors</li>
+                <li>Remember: <code>"123"</code> (string) ≠ <code>123</code> (integer)</li>
+            </ul>
+            <p><strong>Classes:</strong> <code>info-tip</code> on both <code>&lt;li&gt;</code> and <code>&lt;div&gt;</code></p>
+        </div>
+        <div id="warnings1" class="info-note">
+            <h3>⚠️ Common Conversion Errors</h3>
+            <p>Watch out for these mistakes:</p>
+            <ul>
+                <li><code>int("hello")</code> will cause an error</li>
+                <li><code>int(3.9)</code> truncates to <code>3</code>, doesn't round</li>
+                <li>Division always returns a float: <code>6 / 3 = 2.0</code></li>
+            </ul>
+            <p><strong>Classes:</strong> <code>info-note</code> on both <code>&lt;li&gt;</code> and <code>&lt;div&gt;</code></p>
+        </div>
+    </div>
+
+    <h3>Example Tabs</h3>
+    <div class="enhanceable_content tabs">
+        <ul>
+            <li class="example-good"><a href="#good1">✅ Good Example</a></li>
+            <li class="example-bad"><a href="#bad1">❌ Bad Example</a></li>
+        </ul>
+        <div id="good1" class="example-good">
+            <h3>✅ Safe Type Conversion</h3>
+            <pre><code>user_input = input("Enter your age: ")
+
+try:
+    age = int(user_input)
+    print(f"You are {age} years old.")
+except ValueError:
+    print("Please enter a valid number.")</code></pre>
+            <p>This code handles invalid input gracefully.</p>
+            <p><strong>Classes:</strong> <code>example-good</code> on both <code>&lt;li&gt;</code> and <code>&lt;div&gt;</code></p>
+        </div>
+        <div id="bad1" class="example-bad">
+            <h3>❌ Unsafe Type Conversion</h3>
+            <pre><code>user_input = input("Enter your age: ")
+age = int(user_input)  # Will crash if input isn't a number!
+print(f"You are {age} years old.")</code></pre>
+            <p>This code will crash if the user enters non-numeric text.</p>
+            <p><strong>Classes:</strong> <code>example-bad</code> on both <code>&lt;li&gt;</code> and <code>&lt;div&gt;</code></p>
+        </div>
+    </div>
+
+    <hr>
+
+    <h2>Task Priority Badges</h2>
+    <p>Priority badges help students understand which requirements are essential vs. optional.</p>
+
+    <h3>In Task Accordions</h3>
+    <details class="task-portfolio">
+        <summary>📁 Portfolio Task: Student Database</summary>
+        <h3>📁 Create a Student Management System</h3>
+        
+        <p>Build a program that manages student records.</p>
+        
+        <div class="badge-must">⭐ MUST HAVE</div>
+        <ul>
+            <li>Add new students</li>
+            <li>Display all students</li>
+            <li>Search by name</li>
+        </ul>
+        
+        <div class="badge-should">➕ SHOULD HAVE</div>
+        <ul>
+            <li>Edit student details</li>
+            <li>Delete students</li>
+            <li>Sort by different fields</li>
+        </ul>
+        
+        <div class="badge-could">💎 COULD HAVE</div>
+        <ul>
+            <li>Export to CSV file</li>
+            <li>Import from file</li>
+            <li>Generate reports</li>
+        </ul>
+        
+        <a href="#" class="button">Start Project</a>
+    </details>
+
+    <h3>In Tabs with Mixed Priorities</h3>
+    <div class="enhanceable_content tabs">
+        <ul>
+            <li class="task-practice"><a href="#requirements">✏️ Requirements</a></li>
+            <li class="info-tip"><a href="#hints">💡 Hints</a></li>
+        </ul>
+        <div id="requirements" class="task-practice">
+            <h3>✏️ Exercise Requirements</h3>
+            <p>Complete this exercise following the priority levels:</p>
+            <ul>
+                <li><span class="badge-must">⭐ MUST</span> Create at least 3 functions</li>
+                <li><span class="badge-must">⭐ MUST</span> Use descriptive function names</li>
+                <li><span class="badge-must">⭐ MUST</span> Include docstrings</li>
+                <li><span class="badge-should">➕ SHOULD</span> Add type hints</li>
+                <li><span class="badge-should">➕ SHOULD</span> Include error handling</li>
+                <li><span class="badge-could">💎 COULD</span> Write unit tests</li>
+            </ul>
+        </div>
+        <div id="hints" class="info-tip">
+            <h3>💡 Tips for Success</h3>
+            <p>Focus on MUST requirements first, then work through SHOULD and COULD features if time permits.</p>
+            <ul>
+                <li>Start with the core functionality</li>
+                <li>Test each function as you build</li>
+                <li>Don't worry about COULD features until MUST and SHOULD are complete</li>
+            </ul>
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="info-summary">
+        <h3>📋 Next Steps</h3>
+        <p>Now that you understand interactive elements, continue to <strong>Styling Guide 3: Complete Lesson Example</strong> to see how everything works together in a real lesson.</p>
+    </div>
+
+</body>
+</html>

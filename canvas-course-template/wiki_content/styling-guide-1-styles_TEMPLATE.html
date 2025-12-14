@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Styling Guide 1: General & Specific Styles</title>
+    <link rel="stylesheet" href="../css/canvas-course.css">
+</head>
+<body>
+    <!-- CANVAS_META
+    title: Styling Guide 1: General & Specific Styles
+    -->
+
+    <h1>📚 Styling Guide 1: General & Specific Styles</h1>
+    <p>This guide shows you the basic building blocks for styling your Canvas course content.</p>
+
+    <hr>
+
+    <h2>Typography & Text Elements</h2>
+    
+    <h3>Headings</h3>
+    <h1>Heading 1 - Main Page Title</h1>
+    <h2>Heading 2 - Major Sections</h2>
+    <h3>Heading 3 - Subsections</h3>
+    <h4>Heading 4 - Minor Headings</h4>
+
+    <h3>Inline Code</h3>
+    <p>Use inline code for short code snippets: <code>print("Hello, World!")</code>, <code>x = 5</code>, or <code>if name == "Alice":</code>.</p>
+
+    <h3>Code Blocks</h3>
+    <p>Use code blocks for longer code examples:</p>
+    <pre><code># Calculate the area of a circle
+import math
+
+radius = 5
+area = math.pi * radius ** 2
+print(f"Area: {area:.2f}")</code></pre>
+
+    <h3>Lists</h3>
+    <p><strong>Unordered Lists:</strong></p>
+    <ul>
+        <li>First item in the list</li>
+        <li>Second item in the list</li>
+        <li>Third item with a <code>code snippet</code></li>
+        <li>Fourth item in the list</li>
+    </ul>
+
+    <p><strong>Ordered Lists:</strong></p>
+    <ol>
+        <li>Step one of the process</li>
+        <li>Step two of the process</li>
+        <li>Step three with <code>inline code</code></li>
+        <li>Final step</li>
+    </ol>
+
+    <h3>Blockquotes</h3>
+    <blockquote>
+        💬 "Code is like humor. When you have to explain it, it's bad." — Cory House
+    </blockquote>
+
+    <blockquote>
+        💬 Remember: The best code is code that's easy to read and understand. Write for humans first, computers second.
+    </blockquote>
+
+    <hr>
+
+    <h2>Task Boxes</h2>
+    <p>Use task boxes to highlight different types of student activities. Each has a distinct color theme.</p>
+
+    <div class="task-practice">
+        <h3>✏️ Practice Exercise</h3>
+        <p><strong>Class:</strong> <code>task-practice</code> (blue theme)</p>
+        <p>Use this for practice exercises and hands-on activities where students apply their learning without formal assessment.</p>
+        <p><strong>Example:</strong></p>
+        <pre><code>&lt;div class="task-practice"&gt;
+    &lt;h3&gt;✏️ Practice: Variables&lt;/h3&gt;
+    &lt;p&gt;Create three variables...&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+    </div>
+
+    <div class="task-portfolio">
+        <h3>📁 Portfolio Task</h3>
+        <p><strong>Class:</strong> <code>task-portfolio</code> (purple theme)</p>
+        <p>Use this for assessable portfolio work and major projects that students will complete and submit for grading.</p>
+        <p><strong>Example:</strong></p>
+        <pre><code>&lt;div class="task-portfolio"&gt;
+    &lt;h3&gt;📁 Portfolio: Personal Website&lt;/h3&gt;
+    &lt;p&gt;Create a personal website...&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+    </div>
+
+    <div class="task-quiz">
+        <h3>📝 Quiz Task</h3>
+        <p><strong>Class:</strong> <code>task-quiz</code> (teal/mint green theme)</p>
+        <p>Use this for quizzes, tests, and formal assessments where students demonstrate their knowledge.</p>
+        <p><strong>Example:</strong></p>
+        <pre><code>&lt;div class="task-quiz"&gt;
+    &lt;h3&gt;📝 Quiz: Variables Knowledge Check&lt;/h3&gt;
+    &lt;p&gt;Answer the following questions...&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+    </div>
+
+    <hr>
+
+    <h2>Task Priority Badges</h2>
+    <p>Use priority badges to indicate task requirements. Can be used inline with list items or as block elements.</p>
+
+    <h3>Inline Badges (with list items)</h3>
+    <p>Add badges to individual requirements:</p>
+    <ul>
+        <li><span class="badge-must">⭐ MUST</span> Complete all core exercises</li>
+        <li><span class="badge-must">⭐ MUST</span> Submit before the deadline</li>
+        <li><span class="badge-should">➕ SHOULD</span> Include comments in your code</li>
+        <li><span class="badge-should">➕ SHOULD</span> Test with multiple inputs</li>
+        <li><span class="badge-could">💎 COULD</span> Add extra features for bonus marks</li>
+        <li><span class="badge-could">💎 COULD</span> Create a user-friendly interface</li>
+    </ul>
+    <p><strong>HTML Example:</strong></p>
+    <pre><code>&lt;ul&gt;
+    &lt;li&gt;&lt;span class="badge-must"&gt;⭐ MUST&lt;/span&gt; Complete all core exercises&lt;/li&gt;
+    &lt;li&gt;&lt;span class="badge-should"&gt;➕ SHOULD&lt;/span&gt; Include comments&lt;/li&gt;
+    &lt;li&gt;&lt;span class="badge-could"&gt;💎 COULD&lt;/span&gt; Add extra features&lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+
+    <h3>Block Badges (before lists)</h3>
+    <p>Use as headings to indicate the priority level of following requirements:</p>
+    
+    <div class="task-portfolio">
+        <h3>📁 Portfolio Task: Shopping Cart Program</h3>
+        
+        <div class="badge-must">⭐ MUST HAVE - Core Requirements</div>
+        <ul>
+            <li>Allow users to add items to cart</li>
+            <li>Calculate total price</li>
+            <li>Display cart contents</li>
+        </ul>
+        
+        <div class="badge-should">➕ SHOULD HAVE - Important Features</div>
+        <ul>
+            <li>Allow users to remove items</li>
+            <li>Update quantities</li>
+            <li>Apply basic validation</li>
+        </ul>
+        
+        <div class="badge-could">💎 COULD HAVE - Bonus Features</div>
+        <ul>
+            <li>Add discount codes</li>
+            <li>Save cart to file</li>
+            <li>Generate receipt</li>
+        </ul>
+        
+        <a href="#" class="button">Start Project</a>
+    </div>
+
+    <p><strong>Classes:</strong></p>
+    <ul>
+        <li><code>badge-must</code> - Yellow/amber badge for essential requirements (⭐ MUST)</li>
+        <li><code>badge-should</code> - Orange badge for important features (➕ SHOULD)</li>
+        <li><code>badge-could</code> - Red/pink badge for bonus features (💎 COULD)</li>
+    </ul>
+
+    <hr>
+
+    <h2>Info Boxes</h2>
+    <p>Use info boxes to present different types of information with visual distinction.</p>
+
+    <div class="info-learning-goals">
+        <h3>🎯 Learning Goals</h3>
+        <p><strong>Class:</strong> <code>info-learning-goals</code> (cyan theme)</p>
+        <p>Use this for learning intentions and success criteria at the start of lessons.</p>
+        <p><strong>Suggested emojis:</strong> 🎯 for learning intentions, ✓ for success criteria</p>
+        <p><strong>What students will learn:</strong></p>
+        <ul>
+            <li>How to define and use variables</li>
+            <li>Different data types in Python</li>
+            <li>Best practices for naming variables</li>
+        </ul>
+    </div>
+
+    <div class="info-key-concept">
+        <h3>📘 Key Concept</h3>
+        <p><strong>Class:</strong> <code>info-key-concept</code> (indigo theme)</p>
+        <p>Use this for important concepts, definitions, and foundational knowledge.</p>
+        <p><strong>Suggested emojis:</strong> 📘 for general concepts, 📖 for definitions</p>
+        <p><strong>Definition:</strong> A <strong>variable</strong> is a named container that stores a value in memory. Variables allow programs to remember and manipulate data.</p>
+    </div>
+
+    <div class="info-tip">
+        <h3>💡 Pro Tip</h3>
+        <p><strong>Class:</strong> <code>info-tip</code> (yellow theme)</p>
+        <p>Use this for helpful suggestions, best practices, and productivity tips.</p>
+        <p><strong>Naming Tip:</strong> Use descriptive variable names like <code>student_count</code> instead of <code>sc</code>. Your future self will thank you!</p>
+    </div>
+
+    <div class="info-note">
+        <h3>⚠️ Important Note</h3>
+        <p><strong>Class:</strong> <code>info-note</code> (orange theme)</p>
+        <p>Use this for warnings, common mistakes, critical information, and important reminders.</p>
+        <p><strong>Suggested emojis:</strong> ⚠️ for warnings, 📌 for reminders, ⚡ for common mistakes, ❗ for critical information</p>
+        <p><strong>Warning:</strong> Python is case-sensitive! <code>Name</code>, <code>name</code>, and <code>NAME</code> are three different variables.</p>
+    </div>
+
+    <div class="info-summary">
+        <h3>📋 Summary</h3>
+        <p><strong>Class:</strong> <code>info-summary</code> (gray theme)</p>
+        <p>Use this for lesson summaries, key takeaways, and review sections.</p>
+        <p><strong>Key Points:</strong></p>
+        <ul>
+            <li>Variables store data in memory</li>
+            <li>Use descriptive names following Python conventions</li>
+            <li>Python has many built-in data types</li>
+            <li>Type matters when performing operations</li>
+        </ul>
+    </div>
+
+    <hr>
+
+    <h2>Example Boxes</h2>
+    <p>Use example boxes to show correct vs. incorrect approaches.</p>
+
+    <div class="example-good">
+        <h3>✅ Good Example</h3>
+        <p><strong>Class:</strong> <code>example-good</code> (green dashed border)</p>
+        <p>Use this to show recommended practices and correct code.</p>
+        <p><strong>Clear Variable Names:</strong></p>
+        <pre><code>student_count = 25
+average_score = 87.5
+is_passing = average_score >= 50</code></pre>
+        <p>These names clearly indicate what each variable represents.</p>
+    </div>
+
+    <div class="example-bad">
+        <h3>❌ Bad Example</h3>
+        <p><strong>Class:</strong> <code>example-bad</code> (red dashed border)</p>
+        <p>Use this to show what NOT to do and common mistakes.</p>
+        <p><strong>Unclear Variable Names:</strong></p>
+        <pre><code>x = 25
+y = 87.5
+z = y >= 50</code></pre>
+        <p>These single-letter names provide no context about their purpose.</p>
+    </div>
+
+    <hr>
+
+    <h2>Tables</h2>
+    <p>Use tables to present structured data in an organized format.</p>
+
+    <h3>Python Data Types</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Type</th>
+                <th>Description</th>
+                <th>Example</th>
+                <th>Mutable?</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>str</code></td>
+                <td>Text/string data</td>
+                <td><code>"Hello, World!"</code></td>
+                <td>No</td>
+            </tr>
+            <tr>
+                <td><code>int</code></td>
+                <td>Whole numbers</td>
+                <td><code>42</code></td>
+                <td>No</td>
+            </tr>
+            <tr>
+                <td><code>float</code></td>
+                <td>Decimal numbers</td>
+                <td><code>3.14159</code></td>
+                <td>No</td>
+            </tr>
+            <tr>
+                <td><code>bool</code></td>
+                <td>True/False values</td>
+                <td><code>True</code>, <code>False</code></td>
+                <td>No</td>
+            </tr>
+            <tr>
+                <td><code>list</code></td>
+                <td>Ordered collections</td>
+                <td><code>[1, 2, 3]</code></td>
+                <td>Yes</td>
+            </tr>
+            <tr>
+                <td><code>dict</code></td>
+                <td>Key-value pairs</td>
+                <td><code>{"name": "Alice"}</code></td>
+                <td>Yes</td>
+            </tr>
+            <tr>
+                <td><code>tuple</code></td>
+                <td>Immutable sequences</td>
+                <td><code>(1, 2, 3)</code></td>
+                <td>No</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p><strong>Note:</strong> Tables maintain a white background even when placed inside colored containers.</p>
+
+    <hr>
+
+    <h2>Buttons</h2>
+    <p>Use buttons for calls to action and navigation links.</p>
+
+    <p><strong>Default Button:</strong></p>
+    <a href="#" class="button">Click Here</a>
+
+    <p><strong>Buttons in Task Contexts:</strong></p>
+    <div class="task-practice">
+        <h4>✏️ Practice Exercise</h4>
+        <p>Buttons automatically match their container's theme:</p>
+        <a href="#" class="button">Start Practice</a>
+    </div>
+
+    <div class="task-portfolio">
+        <h4>📁 Portfolio Task</h4>
+        <a href="#" class="button">View Requirements</a>
+    </div>
+
+    <div class="task-quiz">
+        <h4>📝 Quiz</h4>
+        <a href="#" class="button">Begin Assessment</a>
+    </div>
+
+    <hr>
+
+    <h2>Horizontal Rules</h2>
+    <p>Use horizontal rules to separate major sections:</p>
+    <pre><code>&lt;hr&gt;</code></pre>
+
+    <hr>
+
+    <div class="info-summary">
+        <h3>📋 Next Steps</h3>
+        <p>Now that you understand the basic styles, continue to <strong>Styling Guide 2: Interactive Elements</strong> to learn about accordions and tabs.</p>
+    </div>
+
+</body>
+</html>

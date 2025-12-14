@@ -1,0 +1,24 @@
+Course Syllabus
+===============
+
+Course: Example Course
+Code: COURSE101
+Instructor: Your Name
+
+Course Description:
+This is an example course created with the IMSCC template system.
+
+Week 1: Introduction and Getting Started
+Week 2: Core Concepts
+Week 3: Advanced Topics
+Week 4: Final Project
+
+Grading:
+- Participation: 20%
+- Assignments: 40%
+- Quizzes: 20%
+- Final Project: 20%
+
+Contact:
+Email: instructor@example.com
+Office Hours: By appointment

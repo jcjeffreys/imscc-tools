@@ -13,7 +13,8 @@ class WikiPage:
         content: str,
         identifier: Optional[str] = None,
         workflow_state: str = "active",
-        editing_roles: str = "teachers"
+        editing_roles: str = "teachers",
+        is_front_page: bool = False
     ):
         """
         Create a new wiki page.
@@ -24,12 +25,14 @@ class WikiPage:
             identifier: Unique identifier (auto-generated if not provided)
             workflow_state: Workflow state (active, unpublished, etc.)
             editing_roles: Who can edit (teachers, students, etc.)
+            is_front_page: Whether this page is the course front page
         """
         self.title = title
         self.content = content
         self.identifier = identifier or generate_identifier()
         self.workflow_state = workflow_state
         self.editing_roles = editing_roles
+        self.is_front_page = is_front_page
         self._filename = f"{sanitize_filename(title)}.html"
     
     @property
@@ -44,6 +47,7 @@ class WikiPage:
         Returns:
             Complete HTML content with metadata
         """
+        front_page_meta = '<meta name="front_page" content="true"/>\n' if self.is_front_page else ''
         return f"""<html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -51,7 +55,7 @@ class WikiPage:
 <meta name="identifier" content="{self.identifier}"/>
 <meta name="editing_roles" content="{self.editing_roles}"/>
 <meta name="workflow_state" content="{self.workflow_state}"/>
-</head>
+{front_page_meta}</head>
 <body>
 {self.content}
 </body>

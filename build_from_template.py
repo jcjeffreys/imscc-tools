@@ -17,6 +17,7 @@ import json
 import re
 import argparse
 from pathlib import Path
+from html.parser import HTMLParser
 from imscc import (
     Course, Module, Quiz, Assignment, Rubric,
     MultipleChoiceQuestion, TrueFalseQuestion,
@@ -157,6 +158,359 @@ def convert_links(html_content, page_filename, filename_to_slug_map=None):
     return html_content
 
 
+def parse_css(css_content):
+    """
+    Parse CSS content into a list of rules.
+    
+    Returns:
+        list: List of tuples (selector, declarations_dict)
+    """
+    rules = []
+    
+    # Remove comments
+    css_content = re.sub(r'/\*.*?\*/', '', css_content, flags=re.DOTALL)
+    
+    # Match CSS rules: selector { declarations }
+    pattern = r'([^{]+)\{([^}]+)\}'
+    
+    for match in re.finditer(pattern, css_content):
+        selector = match.group(1).strip()
+        declarations = match.group(2).strip()
+        
+        # Parse declarations into dict
+        styles = {}
+        for decl in declarations.split(';'):
+            decl = decl.strip()
+            if ':' in decl:
+                prop, value = decl.split(':', 1)
+                styles[prop.strip()] = value.strip()
+        
+        if styles:
+            rules.append((selector, styles))
+    
+    return rules
+
+
+class CSSInliner(HTMLParser):
+    """HTML parser that applies CSS rules inline and removes link tags."""
+    
+    def __init__(self, css_rules):
+        super().__init__()
+        self.css_rules = css_rules
+        self.output = []
+        self.element_stack = []  # Track element hierarchy
+    
+    def handle_starttag(self, tag, attrs):
+        # Skip link tags that reference CSS files
+        if tag == 'link':
+            attrs_dict = dict(attrs)
+            if attrs_dict.get('rel') == 'stylesheet':
+                return
+        
+        # Track element for descendant selectors
+        attrs_dict = dict(attrs)
+        element_classes = attrs_dict.get('class', '').split()
+        element_id = attrs_dict.get('id', '')
+        self.element_stack.append((tag, element_id, element_classes))
+        
+        # Find matching CSS rules and sort by specificity
+        matching_rules = []
+        for selector, styles in self.css_rules:
+            if self._selector_matches(selector):
+                specificity = self._calculate_specificity(selector)
+                matching_rules.append((specificity, selector, styles))
+        
+        # Sort by specificity (lower specificity first, so higher overwrites)
+        matching_rules.sort(key=lambda x: x[0])
+        
+        # Apply rules in specificity order
+        applicable_styles = {}
+        for specificity, selector, styles in matching_rules:
+            applicable_styles.update(styles)
+        
+        # Merge with existing inline styles (inline styles take precedence)
+        if applicable_styles:
+            existing_style = attrs_dict.get('style', '')
+            merged_style = self._merge_styles(existing_style, applicable_styles)
+            
+            # Update or add style attribute
+            new_attrs = []
+            style_added = False
+            for attr_name, attr_value in attrs:
+                if attr_name == 'style':
+                    new_attrs.append((attr_name, merged_style))
+                    style_added = True
+                else:
+                    new_attrs.append((attr_name, attr_value))
+            
+            if not style_added:
+                new_attrs.append(('style', merged_style))
+            
+            attrs = new_attrs
+        
+        # Reconstruct tag
+        attrs_str = ''.join(f' {name}="{value}"' for name, value in attrs)
+        self.output.append(f'<{tag}{attrs_str}>')
+    
+    def handle_endtag(self, tag):
+        if tag == 'link':
+            return
+        
+        if self.element_stack and self.element_stack[-1][0] == tag:
+            self.element_stack.pop()
+        
+        self.output.append(f'</{tag}>')
+    
+    def handle_data(self, data):
+        # Escape HTML entities in data
+        data = data.replace('&', '&amp;')
+        data = data.replace('<', '&lt;')
+        data = data.replace('>', '&gt;')
+        self.output.append(data)
+    
+    def handle_entityref(self, name):
+        self.output.append(f'&{name};')
+    
+    def handle_charref(self, name):
+        self.output.append(f'&#{name};')
+    
+    def handle_startendtag(self, tag, attrs):
+        if tag == 'link':
+            attrs_dict = dict(attrs)
+            if attrs_dict.get('rel') == 'stylesheet':
+                return
+        
+        attrs_str = ''.join(f' {name}="{value}"' for name, value in attrs)
+        self.output.append(f'<{tag}{attrs_str} />')
+    
+    def handle_comment(self, data):
+        self.output.append(f'<!--{data}-->')
+    
+    def handle_decl(self, decl):
+        self.output.append(f'<!{decl}>')
+    
+    def _calculate_specificity(self, selector):
+        """
+        Calculate CSS specificity as a tuple (ids, classes, elements).
+        Returns a tuple that can be compared: higher values = higher specificity.
+        """
+        # Handle comma-separated selectors - use the highest specificity
+        if ',' in selector:
+            return max(self._calculate_specificity(s.strip()) for s in selector.split(','))
+        
+        ids = 0
+        classes = 0
+        elements = 0
+        
+        # Remove child combinators and split by spaces
+        selector_cleaned = selector.replace('>', ' ')
+        parts = [p.strip() for p in selector_cleaned.split() if p.strip()]
+        
+        for part in parts:
+            # Count IDs
+            ids += part.count('#')
+            # Count classes (including pseudo-classes)
+            classes += part.count('.')
+            classes += part.count('[')  # Attribute selectors
+            # Count elements - check if there's a tag name at the START
+            # Tag names come before any . # [ : characters
+            # Extract tag name (everything before first special char)
+            tag_match = re.match(r'^([a-zA-Z][a-zA-Z0-9]*)', part)
+            if tag_match:
+                elements += 1
+        
+        return (ids, classes, elements)
+    
+    def _merge_styles(self, existing_style, new_styles):
+        """Merge CSS styles, preferring existing inline styles."""
+        existing_dict = {}
+        if existing_style:
+            for decl in existing_style.split(';'):
+                decl = decl.strip()
+                if ':' in decl:
+                    prop, value = decl.split(':', 1)
+                    existing_dict[prop.strip()] = value.strip()
+        
+        # Merge, preferring existing
+        merged = new_styles.copy()
+        merged.update(existing_dict)
+        
+        return '; '.join(f'{prop}: {value}' for prop, value in merged.items())
+    
+    def _selector_matches(self, selector):
+        """Check if selector matches current element."""
+        selector = selector.strip()
+        
+        # Handle comma-separated selectors
+        if ',' in selector:
+            return any(self._selector_matches(s.strip()) for s in selector.split(','))
+        
+        # Handle descendant selectors (space-separated)
+        if ' ' in selector:
+            return self._matches_descendant_selector(selector)
+        
+        # Single selector
+        if not self.element_stack:
+            return False
+        
+        current_tag, current_id, current_classes = self.element_stack[-1]
+        return self._matches_simple_selector(selector, current_tag, current_id, current_classes)
+    
+    def _matches_descendant_selector(self, selector):
+        """Match descendant selector like '.parent .child' or '.parent > .child'."""
+        # Parse selector parts, keeping track of combinators
+        parts = []
+        combinators = []
+        current_part = []
+        
+        i = 0
+        while i < len(selector):
+            char = selector[i]
+            if char == '>':
+                # Child combinator
+                if current_part:
+                    parts.append(''.join(current_part).strip())
+                    current_part = []
+                combinators.append('>')
+                i += 1
+            elif char == ' ':
+                # Descendant combinator (space)
+                if current_part:
+                    part = ''.join(current_part).strip()
+                    if part:
+                        parts.append(part)
+                        current_part = []
+                        # Only add combinator if we actually have a part before the space
+                        # and if the last combinator wasn't already added
+                        if len(parts) > len(combinators) + 1:
+                            combinators.append(' ')
+                i += 1
+            else:
+                current_part.append(char)
+                i += 1
+        
+        # Add final part
+        if current_part:
+            part = ''.join(current_part).strip()
+            if part:
+                parts.append(part)
+        
+        if len(parts) > len(self.element_stack):
+            return False
+        
+        # Check if the last part matches the current element
+        current_tag, current_id, current_classes = self.element_stack[-1]
+        if not self._matches_simple_selector(parts[-1], current_tag, current_id, current_classes):
+            return False
+        
+        # Work backwards through the selector parts and element stack
+        stack_idx = len(self.element_stack) - 2
+        
+        for i in range(len(parts) - 2, -1, -1):
+            selector_part = parts[i]
+            combinator = combinators[i] if i < len(combinators) else ' '
+            
+            if combinator == '>':
+                # Child combinator: must match immediate parent only
+                if stack_idx < 0:
+                    return False
+                tag, elem_id, classes = self.element_stack[stack_idx]
+                if not self._matches_simple_selector(selector_part, tag, elem_id, classes):
+                    return False
+                stack_idx -= 1
+            else:
+                # Descendant combinator: search up the stack
+                matched = False
+                while stack_idx >= 0:
+                    tag, elem_id, classes = self.element_stack[stack_idx]
+                    if self._matches_simple_selector(selector_part, tag, elem_id, classes):
+                        matched = True
+                        stack_idx -= 1
+                        break
+                    stack_idx -= 1
+                
+                if not matched:
+                    return False
+        
+        return True
+    
+    def _matches_simple_selector(self, selector, tag, element_id, element_classes):
+        """Match a simple selector against an element."""
+        # Handle multiple classes (e.g., .class1.class2 or tag.class1.class2)
+        if '.' in selector:
+            # Split by dots to get tag (if any) and classes
+            parts = selector.split('.')
+            tag_part = parts[0] if parts[0] else None
+            class_parts = [p for p in parts[1:] if p]
+            
+            # Check tag if specified
+            if tag_part and tag_part != tag:
+                return False
+            
+            # Check all classes are present
+            for class_name in class_parts:
+                if class_name not in element_classes:
+                    return False
+            
+            return True
+        
+        # ID selector
+        if selector.startswith('#'):
+            id_name = selector[1:]
+            return element_id == id_name
+        
+        # Tag with ID
+        if '#' in selector:
+            tag_part, id_part = selector.split('#', 1)
+            return tag == tag_part and element_id == id_part
+        
+        # Tag selector only
+        return selector == tag
+    
+    def get_output(self):
+        return ''.join(self.output)
+
+
+def inline_css(html_content, template_dir):
+    """
+    Find and inline CSS files referenced in HTML, then remove the link tags.
+    
+    Args:
+        html_content: HTML content string
+        template_dir: Path to template directory
+    
+    Returns:
+        str: HTML with inlined CSS and link tags removed
+    """
+    # Find CSS file references
+    css_link_pattern = r'<link\s+rel="stylesheet"\s+href="([^"]+)"'
+    css_files = re.findall(css_link_pattern, html_content, re.IGNORECASE)
+    
+    if not css_files:
+        return html_content
+    
+    # Load and parse all referenced CSS files
+    all_css_rules = []
+    for css_file in css_files:
+        # Handle relative paths
+        css_file_normalized = css_file
+        while css_file_normalized.startswith('../'):
+            css_file_normalized = css_file_normalized[3:]
+        
+        css_path = template_dir / css_file_normalized
+        if css_path.exists():
+            with open(css_path, 'r', encoding='utf-8') as f:
+                css_content = f.read()
+                rules = parse_css(css_content)
+                all_css_rules.extend(rules)
+    
+    # Apply CSS inline
+    inliner = CSSInliner(all_css_rules)
+    inliner.feed(html_content)
+    
+    return inliner.get_output()
+
+
 def load_course_config(template_dir):
     """Load course configuration from course.json or return defaults."""
     config_path = template_dir / "course.json"
@@ -178,7 +532,7 @@ def load_modules_config(template_dir):
     modules_path = template_dir / "modules.json"
     
     if modules_path.exists():
-        with open(modules_path, 'r') as f:
+        with open(modules_path, 'r', encoding='utf-8') as f:
             return json.load(f).get('modules', [])
     
     return []
@@ -267,7 +621,7 @@ def create_question_from_json(question_data):
         raise ValueError(f"Unknown question type: {qtype}")
 
 
-def load_quiz_from_json(quiz_path):
+def load_quiz_from_json(quiz_path, identifier=None):
     """Load a quiz from a JSON file."""
     with open(quiz_path, 'r') as f:
         quiz_data = json.load(f)
@@ -278,6 +632,7 @@ def load_quiz_from_json(quiz_path):
         title=quiz_data.get('title', 'Untitled Quiz'),
         description=quiz_data.get('description', ''),
         quiz_type=settings.get('quiz_type', 'assignment'),
+        identifier=identifier,
         allowed_attempts=settings.get('allowed_attempts', 1),
         scoring_policy=settings.get('scoring_policy', 'keep_highest'),
         shuffle_questions=settings.get('shuffle_questions', False),
@@ -310,6 +665,9 @@ def load_assignment_from_json(assignment_path, identifier=None):
         if html_path.exists():
             with open(html_path, 'r', encoding='utf-8') as f:
                 description = f.read()
+            
+            # Inline CSS and remove link tags
+            description = inline_css(description, assignment_path.parent.parent)
         else:
             print(f"   ⚠️  Warning: Description file '{description_file}' not found for {assignment_path.name}")
     
@@ -358,17 +716,6 @@ def load_rubric_from_json(rubric_path):
         )
     
     return rubric
-
-
-def load_modules_config(template_dir):
-    """Load module organization from modules.json if it exists."""
-    modules_path = template_dir / "modules.json"
-    
-    if modules_path.exists():
-        with open(modules_path, 'r') as f:
-            return json.load(f).get('modules', [])
-    
-    return []
 
 
 def build_imscc(template_dir, output_file=None):
@@ -438,6 +785,9 @@ def build_imscc(template_dir, output_file=None):
         # Read HTML content
         html_content = html_file.read_text(encoding='utf-8')
         
+        # Inline CSS and remove link tags
+        html_content = inline_css(html_content, template_path)
+        
         # Parse metadata
         meta = parse_canvas_meta(html_content)
         
@@ -457,16 +807,25 @@ def build_imscc(template_dir, output_file=None):
             flags=re.DOTALL | re.IGNORECASE
         )
         
+        # Extract body content if full HTML document
+        body_match = re.search(r'<body[^>]*>(.*?)</body>', converted_html, re.DOTALL | re.IGNORECASE)
+        if body_match:
+            converted_html = body_match.group(1).strip()
+        
+        # Check if this is the home page
+        is_home = meta.get('home') in ('true', 'True', True, '1', 1)
+        
         # Add page to course
         page = course.add_page(
             title=page_title,
-            content=converted_html
+            content=converted_html,
+            is_front_page=is_home
         )
         
         pages_map[title_slug] = page
         
         # Track home page
-        if meta.get('home'):
+        if is_home:
             home_page = page
         
         print(f"   ✓ {page_title} ({html_file.name}){' [HOME]' if meta.get('home') else ''}")
@@ -530,7 +889,7 @@ def build_imscc(template_dir, output_file=None):
         for quiz_file in quiz_files:
             quiz_id = quiz_file.stem
             try:
-                quiz = load_quiz_from_json(quiz_file)
+                quiz = load_quiz_from_json(quiz_file, identifier=quiz_id)
                 quizzes_map[quiz_id] = quiz
                 course.add_quiz(quiz)
                 num_questions = len(quiz.questions)

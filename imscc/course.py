@@ -56,7 +56,8 @@ class Course:
         self,
         title: str,
         content: str,
-        workflow_state: str = "active"
+        workflow_state: str = "active",
+        is_front_page: bool = False
     ) -> WikiPage:
         """
         Add a wiki page to the course.
@@ -65,11 +66,12 @@ class Course:
             title: Page title
             content: HTML content
             workflow_state: Workflow state
+            is_front_page: Whether this page is the course front page
         
         Returns:
             The created WikiPage
         """
-        page = WikiPage(title, content, workflow_state=workflow_state)
+        page = WikiPage(title, content, workflow_state=workflow_state, is_front_page=is_front_page)
         self.pages.append(page)
         return page
     

@@ -1,0 +1,21 @@
+{
+  "title": "Comprehensive Assignment Example",
+  "description_file": "comprehensive-assignment_TEMPLATE.html",
+  "points_possible": 100,
+  "submission_types": [
+    "online_upload",
+    "online_text_entry"
+  ],
+  "allowed_extensions": [
+    ".pdf",
+    ".doc",
+    ".docx",
+    ".txt"
+  ],
+  "grading_type": "points",
+  "assignment_group": "Assignments",
+  "rubric": "comprehensive-rubric_TEMPLATE",
+  "due_at": null,
+  "lock_at": null,
+  "unlock_at": null
+}

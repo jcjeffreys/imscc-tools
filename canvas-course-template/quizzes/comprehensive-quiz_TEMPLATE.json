@@ -1,0 +1,197 @@
+{
+  "title": "Comprehensive Quiz - All Question Types",
+  "description": "<p>This example quiz demonstrates all 12 available question types in Canvas.</p>",
+  "settings": {
+    "quiz_type": "assignment",
+    "allowed_attempts": 2,
+    "time_limit": 30,
+    "shuffle_questions": true,
+    "shuffle_answers": true,
+    "show_correct_answers": true,
+    "show_correct_answers_at": null,
+    "one_question_at_a_time": false,
+    "cant_go_back": false,
+    "scoring_policy": "keep_highest"
+  },
+  "questions": [
+    {
+      "type": "multiple_choice",
+      "text": "<p><strong>Multiple Choice:</strong> What is the capital of France?</p>",
+      "answers": [
+        {
+          "text": "London",
+          "correct": false
+        },
+        {
+          "text": "Paris",
+          "correct": true
+        },
+        {
+          "text": "Berlin",
+          "correct": false
+        },
+        {
+          "text": "Madrid",
+          "correct": false
+        }
+      ],
+      "points": 1.0
+    },
+    {
+      "type": "true_false",
+      "text": "<p><strong>True/False:</strong> The Earth is flat.</p>",
+      "correct_answer": false,
+      "points": 1.0
+    },
+    {
+      "type": "fill_in_blank",
+      "text": "<p><strong>Fill in the Blank:</strong> The chemical symbol for water is ___.</p>",
+      "answers": [
+        "H2O",
+        "h2o"
+      ],
+      "points": 1.0
+    },
+    {
+      "type": "fill_in_multiple_blanks",
+      "text": "<p><strong>Fill in Multiple Blanks:</strong> The [color1] sky and the [color2] grass.</p>",
+      "answers": {
+        "color1": [
+          "blue"
+        ],
+        "color2": [
+          "green"
+        ]
+      },
+      "points": 2.0
+    },
+    {
+      "type": "multiple_answers",
+      "text": "<p><strong>Multiple Answers:</strong> Which of the following are programming languages? (Select all that apply)</p>",
+      "answers": [
+        {
+          "text": "Python",
+          "correct": true
+        },
+        {
+          "text": "JavaScript",
+          "correct": true
+        },
+        {
+          "text": "HTML",
+          "correct": false
+        },
+        {
+          "text": "Java",
+          "correct": true
+        }
+      ],
+      "points": 2.0
+    },
+    {
+      "type": "multiple_dropdowns",
+      "text": "<p><strong>Multiple Dropdowns:</strong> A [animal1] is a mammal, while a [animal2] is a reptile.</p>",
+      "answers": {
+        "animal1": [
+          {
+            "text": "dog",
+            "correct": true
+          },
+          {
+            "text": "snake",
+            "correct": false
+          },
+          {
+            "text": "lizard",
+            "correct": false
+          }
+        ],
+        "animal2": [
+          {
+            "text": "cat",
+            "correct": false
+          },
+          {
+            "text": "snake",
+            "correct": true
+          },
+          {
+            "text": "horse",
+            "correct": false
+          }
+        ]
+      },
+      "points": 2.0
+    },
+    {
+      "type": "matching",
+      "text": "<p><strong>Matching:</strong> Match each country with its capital city.</p>",
+      "matches": [
+        {
+          "prompt": "France",
+          "answer": "Paris"
+        },
+        {
+          "prompt": "Germany",
+          "answer": "Berlin"
+        },
+        {
+          "prompt": "Spain",
+          "answer": "Madrid"
+        },
+        {
+          "prompt": "Italy",
+          "answer": "Rome"
+        }
+      ],
+      "distractors": [
+        "London",
+        "Vienna"
+      ],
+      "points": 2.0
+    },
+    {
+      "type": "numerical_answer",
+      "text": "<p><strong>Numerical Answer:</strong> What is the value of \u03c0 (pi) to 2 decimal places?</p>",
+      "answers": [
+        {
+          "exact": 3.14,
+          "margin": 0.01
+        }
+      ],
+      "points": 1.0
+    },
+    {
+      "type": "formula_question",
+      "text": "<p><strong>Formula Question:</strong> Calculate the area of a rectangle with length [l] and width [w].</p>",
+      "formula": "l*w",
+      "variables": {
+        "l": [
+          5,
+          20
+        ],
+        "w": [
+          3,
+          15
+        ]
+      },
+      "tolerance": 0.01,
+      "points": 2.0
+    },
+    {
+      "type": "essay_question",
+      "text": "<p><strong>Essay Question:</strong> Describe the water cycle in 3-5 sentences.</p>",
+      "points": 5.0
+    },
+    {
+      "type": "file_upload_question",
+      "text": "<p><strong>File Upload:</strong> Upload your completed diagram of the solar system.</p>",
+      "points": 5.0
+    },
+    {
+      "type": "text_only_question",
+      "text": "<p><strong>Instructions:</strong> The following section contains bonus questions. Read carefully before proceeding.</p>",
+      "points": 0.0
+    }
+  ]
+}
