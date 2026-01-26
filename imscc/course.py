@@ -187,6 +187,23 @@ class Course:
             )
         return self._default_assignment_group
     
+    def get_or_create_assignment_group(self, title: str) -> 'AssignmentGroup':
+        """Get an existing assignment group by title or create it if it doesn't exist.
+        
+        Args:
+            title: The assignment group title
+            
+        Returns:
+            The existing or newly created AssignmentGroup
+        """
+        # Search for existing group with this title
+        for group in self.assignment_groups:
+            if group.title == title:
+                return group
+        
+        # Create new group if not found
+        return self.create_assignment_group(title=title)
+    
     def add_assignment(self, assignment: 'Assignment', 
                       assignment_group: 'AssignmentGroup' = None) -> None:
         """Add an assignment to the course.

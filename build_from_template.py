@@ -192,26 +192,39 @@ def parse_css(css_content):
 
 
 class CSSInliner(HTMLParser):
-    """HTML parser that applies CSS rules inline and removes link tags."""
+    """HTML parser that applies CSS rules inline and removes link and style tags."""
     
     def __init__(self, css_rules):
         super().__init__()
         self.css_rules = css_rules
         self.output = []
         self.element_stack = []  # Track element hierarchy
+        self.in_style_tag = False  # Track if we're inside a <style> tag
     
     def handle_starttag(self, tag, attrs):
+        # HTML void elements that cannot have content or closing tags
+        VOID_ELEMENTS = {'area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 
+                         'link', 'meta', 'param', 'source', 'track', 'wbr'}
+        
         # Skip link tags that reference CSS files
         if tag == 'link':
             attrs_dict = dict(attrs)
             if attrs_dict.get('rel') == 'stylesheet':
                 return
         
+        # Skip style tags (we'll remove them entirely)
+        if tag == 'style':
+            self.in_style_tag = True
+            return
+        
         # Track element for descendant selectors
         attrs_dict = dict(attrs)
         element_classes = attrs_dict.get('class', '').split()
         element_id = attrs_dict.get('id', '')
+        
+        # Push element to stack for CSS matching (all elements, including void)
         self.element_stack.append((tag, element_id, element_classes))
+        is_void = tag in VOID_ELEMENTS
         
         # Find matching CSS rules and sort by specificity
         matching_rules = []
@@ -219,6 +232,10 @@ class CSSInliner(HTMLParser):
             if self._selector_matches(selector):
                 specificity = self._calculate_specificity(selector)
                 matching_rules.append((specificity, selector, styles))
+        
+        # Immediately pop void elements since they have no closing tag
+        if is_void:
+            self.element_stack.pop()
         
         # Sort by specificity (lower specificity first, so higher overwrites)
         matching_rules.sort(key=lambda x: x[0])
@@ -256,12 +273,26 @@ class CSSInliner(HTMLParser):
         if tag == 'link':
             return
         
-        if self.element_stack and self.element_stack[-1][0] == tag:
+        # End of style tag - resume normal processing
+        if tag == 'style':
+            self.in_style_tag = False
+            return
+        
+        # Pop elements from stack until we find the matching tag
+        # HTML allows implied closing of certain elements (like <p>)
+        while self.element_stack:
+            last_tag, last_id, last_classes = self.element_stack[-1]
             self.element_stack.pop()
+            if last_tag == tag:
+                break
         
         self.output.append(f'</{tag}>')
     
     def handle_data(self, data):
+        # Skip content inside style tags
+        if self.in_style_tag:
+            return
+        
         # Escape HTML entities in data
         data = data.replace('&', '&amp;')
         data = data.replace('<', '&lt;')
@@ -395,7 +426,16 @@ class CSSInliner(HTMLParser):
             if part:
                 parts.append(part)
         
+        # CRITICAL FIX: For a descendant selector to match, we need AT LEAST as many
+        # elements in the stack as parts in the selector.
+        # If we have 'details.task-practice details' (2 parts) but only 1 element in stack,
+        # it should NOT match because we need a parent AND a child.
         if len(parts) > len(self.element_stack):
+            return False
+        
+        # Additional safety: if we have 2 parts, we need at least 1 for parent + 1 for child
+        # So require stack length >= number of parts
+        if len(self.element_stack) < len(parts):
             return False
         
         # Check if the last part matches the current element
@@ -473,24 +513,29 @@ class CSSInliner(HTMLParser):
 
 def inline_css(html_content, template_dir):
     """
-    Find and inline CSS files referenced in HTML, then remove the link tags.
+    Find and inline CSS from external files and internal <style> tags, then remove them.
     
     Args:
         html_content: HTML content string
         template_dir: Path to template directory
     
     Returns:
-        str: HTML with inlined CSS and link tags removed
+        str: HTML with inlined CSS and link/style tags removed
     """
+    all_css_rules = []
+    
+    # Extract CSS from internal <style> tags
+    style_pattern = r'<style[^>]*>(.*?)</style>'
+    style_matches = re.findall(style_pattern, html_content, re.DOTALL | re.IGNORECASE)
+    for style_content in style_matches:
+        rules = parse_css(style_content)
+        all_css_rules.extend(rules)
+    
     # Find CSS file references
     css_link_pattern = r'<link\s+rel="stylesheet"\s+href="([^"]+)"'
     css_files = re.findall(css_link_pattern, html_content, re.IGNORECASE)
     
-    if not css_files:
-        return html_content
-    
     # Load and parse all referenced CSS files
-    all_css_rules = []
     for css_file in css_files:
         # Handle relative paths
         css_file_normalized = css_file
@@ -503,6 +548,10 @@ def inline_css(html_content, template_dir):
                 css_content = f.read()
                 rules = parse_css(css_content)
                 all_css_rules.extend(rules)
+    
+    # If no CSS found, return original content
+    if not all_css_rules:
+        return html_content
     
     # Apply CSS inline
     inliner = CSSInliner(all_css_rules)
@@ -889,9 +938,21 @@ def build_imscc(template_dir, output_file=None):
         for quiz_file in quiz_files:
             quiz_id = quiz_file.stem
             try:
+                with open(quiz_file, 'r') as f:
+                    quiz_data = json.load(f)
+                
                 quiz = load_quiz_from_json(quiz_file, identifier=quiz_id)
                 quizzes_map[quiz_id] = quiz
-                course.add_quiz(quiz)
+                
+                # Set assignment group if specified
+                group_name = quiz_data.get('assignment_group')
+                if group_name:
+                    # Get or create assignment group (reuses existing group if it exists)
+                    assignment_group = course.get_or_create_assignment_group(group_name)
+                    course.add_quiz(quiz, assignment_group=assignment_group)
+                else:
+                    course.add_quiz(quiz)
+                
                 num_questions = len(quiz.questions)
                 total_points = sum(q.points_possible for q in quiz.questions)
                 print(f"   ✓ {quiz.title} ({num_questions} questions, {total_points} points)")
@@ -925,13 +986,13 @@ def build_imscc(template_dir, output_file=None):
                 # Set assignment group if specified
                 group_name = assignment_data.get('assignment_group')
                 if group_name:
-                    # Get or create assignment group
-                    assignment.assignment_group_identifierref = course.create_assignment_group(
-                        title=group_name
-                    ).identifier
+                    # Get or create assignment group (reuses existing group if it exists)
+                    assignment_group = course.get_or_create_assignment_group(group_name)
+                    course.add_assignment(assignment, assignment_group=assignment_group)
+                else:
+                    course.add_assignment(assignment)
                 
                 assignments_map[assignment_id] = assignment
-                course.add_assignment(assignment)
                 print(f"   ✓ {assignment.title} ({assignment.points_possible} points)")
             except Exception as e:
                 print(f"   ❌ Error loading {assignment_file.name}: {e}")
@@ -1079,7 +1140,11 @@ Link Conversion:
     
     args = parser.parse_args()
     
-    build_imscc(args.template_dir, args.output)
+    # Convert paths to absolute paths to support running from any directory
+    template_dir = os.path.abspath(args.template_dir)
+    output_file = os.path.abspath(args.output) if args.output else None
+    
+    build_imscc(template_dir, output_file)
 
 
 if __name__ == '__main__':
