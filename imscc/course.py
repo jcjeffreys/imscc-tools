@@ -155,7 +155,7 @@ class Course:
     
     def create_assignment_group(self, title: str, position: int = None, 
                                group_weight: float = 0.0) -> 'AssignmentGroup':
-        """Create and add an assignment group to the course.
+        """Create and add an assignment group to the course (or return existing one with same title).
         
         Args:
             title: The assignment group title
@@ -163,9 +163,14 @@ class Course:
             group_weight: Weight for weighted grading (0.0 = unweighted)
             
         Returns:
-            The created AssignmentGroup
+            The created or existing AssignmentGroup
         """
         from .assignment import AssignmentGroup
+        
+        # Check if group with this title already exists
+        for group in self.assignment_groups:
+            if group.title == title:
+                return group
         
         if position is None:
             position = len(self.assignment_groups) + 1

@@ -647,7 +647,9 @@ def load_quiz_from_json(quiz_path, identifier=None):
         question = create_question_from_json(question_data)
         quiz.add_question(question)
     
-    return quiz
+    # Return both quiz and assignment_group name if specified
+    assignment_group = quiz_data.get('assignment_group') or settings.get('assignment_group')
+    return quiz, assignment_group
 
 
 def load_assignment_from_json(assignment_path, identifier=None):
@@ -889,9 +891,16 @@ def build_imscc(template_dir, output_file=None):
         for quiz_file in quiz_files:
             quiz_id = quiz_file.stem
             try:
-                quiz = load_quiz_from_json(quiz_file, identifier=quiz_id)
+                quiz, assignment_group_name = load_quiz_from_json(quiz_file, identifier=quiz_id)
+                
+                # Set assignment group if specified
+                if assignment_group_name:
+                    assignment_group = course.create_assignment_group(title=assignment_group_name)
+                    course.add_quiz(quiz, assignment_group=assignment_group)
+                else:
+                    course.add_quiz(quiz)
+                
                 quizzes_map[quiz_id] = quiz
-                course.add_quiz(quiz)
                 num_questions = len(quiz.questions)
                 total_points = sum(q.points_possible for q in quiz.questions)
                 print(f"   ✓ {quiz.title} ({num_questions} questions, {total_points} points)")
@@ -926,12 +935,12 @@ def build_imscc(template_dir, output_file=None):
                 group_name = assignment_data.get('assignment_group')
                 if group_name:
                     # Get or create assignment group
-                    assignment.assignment_group_identifierref = course.create_assignment_group(
-                        title=group_name
-                    ).identifier
+                    assignment_group = course.create_assignment_group(title=group_name)
+                    course.add_assignment(assignment, assignment_group=assignment_group)
+                else:
+                    course.add_assignment(assignment)
                 
                 assignments_map[assignment_id] = assignment
-                course.add_assignment(assignment)
                 print(f"   ✓ {assignment.title} ({assignment.points_possible} points)")
             except Exception as e:
                 print(f"   ❌ Error loading {assignment_file.name}: {e}")
