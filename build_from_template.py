@@ -83,7 +83,7 @@ def title_to_slug(title):
     return slug
 
 
-def convert_links(html_content, page_filename, filename_to_slug_map=None):
+def convert_links(html_content, page_filename, filename_to_slug_map=None, assignments_map=None, quizzes_map=None):
     """
     Convert local links to Canvas format.
     
@@ -91,14 +91,22 @@ def convert_links(html_content, page_filename, filename_to_slug_map=None):
     - ../web_resources/file.txt → $IMS-CC-FILEBASE$/web_resources/file.txt
     - file.txt (in same dir) → $IMS-CC-FILEBASE$/web_resources/file.txt
     - page.html → $CANVAS_OBJECT_REFERENCE$/pages/page-title-slug
+    - $CANVAS_OBJECT_REFERENCE$/assignments/assignment-id → actual assignment reference
+    - $CANVAS_OBJECT_REFERENCE$/quizzes/quiz-id → actual quiz reference
     
     Args:
         html_content: The HTML content to process
         page_filename: Current page filename (for context)
         filename_to_slug_map: Dict mapping filename (without .html) to title slug
+        assignments_map: Dict mapping assignment ID to assignment object
+        quizzes_map: Dict mapping quiz ID to quiz object
     """
     if filename_to_slug_map is None:
         filename_to_slug_map = {}
+    if assignments_map is None:
+        assignments_map = {}
+    if quizzes_map is None:
+        quizzes_map = {}
     
     # Convert file links: ../web_resources/file.ext → $IMS-CC-FILEBASE$/web_resources/file.ext
     html_content = re.sub(
@@ -152,6 +160,38 @@ def convert_links(html_content, page_filename, filename_to_slug_map=None):
     html_content = re.sub(
         r'href="([^"]+\.html)"',
         replace_page_link,
+        html_content
+    )
+    
+    # Convert assignment placeholders: $CANVAS_OBJECT_REFERENCE$/assignments/assignment-id
+    def replace_assignment_link(match):
+        assignment_id = match.group(1)
+        if assignment_id in assignments_map:
+            assignment = assignments_map[assignment_id]
+            return f'href="$CANVAS_OBJECT_REFERENCE$/assignments/{assignment.identifier}"'
+        else:
+            # Keep the original if not found (will be flagged as broken link in Canvas)
+            return match.group(0)
+    
+    html_content = re.sub(
+        r'href="\$CANVAS_OBJECT_REFERENCE\$/assignments/([^"]+)"',
+        replace_assignment_link,
+        html_content
+    )
+    
+    # Convert quiz placeholders: $CANVAS_OBJECT_REFERENCE$/quizzes/quiz-id
+    def replace_quiz_link(match):
+        quiz_id = match.group(1)
+        if quiz_id in quizzes_map:
+            quiz = quizzes_map[quiz_id]
+            return f'href="$CANVAS_OBJECT_REFERENCE$/quizzes/{quiz.identifier}"'
+        else:
+            # Keep the original if not found
+            return match.group(0)
+    
+    html_content = re.sub(
+        r'href="\$CANVAS_OBJECT_REFERENCE\$/quizzes/([^"]+)"',
+        replace_quiz_link,
         html_content
     )
     
@@ -219,8 +259,8 @@ class CSSInliner(HTMLParser):
         
         # Track element for descendant selectors
         attrs_dict = dict(attrs)
-        element_classes = attrs_dict.get('class', '').split()
-        element_id = attrs_dict.get('id', '')
+        element_classes = (attrs_dict.get('class') or '').split()
+        element_id = attrs_dict.get('id') or ''
         
         # Push element to stack for CSS matching (all elements, including void)
         self.element_stack.append((tag, element_id, element_classes))
@@ -940,34 +980,17 @@ def build_imscc(template_dir, output_file=None):
         for quiz_file in quiz_files:
             quiz_id = quiz_file.stem
             try:
-<<<<<<< HEAD
                 quiz, assignment_group_name = load_quiz_from_json(quiz_file, identifier=quiz_id)
+                quizzes_map[quiz_id] = quiz
                 
                 # Set assignment group if specified
                 if assignment_group_name:
-                    assignment_group = course.create_assignment_group(title=assignment_group_name)
-                    course.add_quiz(quiz, assignment_group=assignment_group)
-                else:
-                    course.add_quiz(quiz)
-                
-                quizzes_map[quiz_id] = quiz
-=======
-                with open(quiz_file, 'r') as f:
-                    quiz_data = json.load(f)
-                
-                quiz = load_quiz_from_json(quiz_file, identifier=quiz_id)
-                quizzes_map[quiz_id] = quiz
-                
-                # Set assignment group if specified
-                group_name = quiz_data.get('assignment_group')
-                if group_name:
                     # Get or create assignment group (reuses existing group if it exists)
-                    assignment_group = course.get_or_create_assignment_group(group_name)
+                    assignment_group = course.get_or_create_assignment_group(assignment_group_name)
                     course.add_quiz(quiz, assignment_group=assignment_group)
                 else:
                     course.add_quiz(quiz)
                 
->>>>>>> 5560a8fa71894ec2559d3b86836cfe1a1db90b62
                 num_questions = len(quiz.questions)
                 total_points = sum(q.points_possible for q in quiz.questions)
                 print(f"   ✓ {quiz.title} ({num_questions} questions, {total_points} points)")
@@ -1001,13 +1024,8 @@ def build_imscc(template_dir, output_file=None):
                 # Set assignment group if specified
                 group_name = assignment_data.get('assignment_group')
                 if group_name:
-<<<<<<< HEAD
-                    # Get or create assignment group
-                    assignment_group = course.create_assignment_group(title=group_name)
-=======
                     # Get or create assignment group (reuses existing group if it exists)
                     assignment_group = course.get_or_create_assignment_group(group_name)
->>>>>>> 5560a8fa71894ec2559d3b86836cfe1a1db90b62
                     course.add_assignment(assignment, assignment_group=assignment_group)
                 else:
                     course.add_assignment(assignment)
@@ -1016,6 +1034,19 @@ def build_imscc(template_dir, output_file=None):
                 print(f"   ✓ {assignment.title} ({assignment.points_possible} points)")
             except Exception as e:
                 print(f"   ❌ Error loading {assignment_file.name}: {e}")
+    
+    # Second pass: Update page links now that all content is loaded
+    print(f"\n🔗 Updating page links to assignments and quizzes...")
+    for page_slug, page in pages_map.items():
+        # Re-process the content with assignment and quiz mappings
+        updated_content = convert_links(
+            page.content, 
+            page_slug, 
+            filename_to_slug_map,
+            assignments_map,
+            quizzes_map
+        )
+        page.content = updated_content
     
     # Process modules
     if modules_config:
