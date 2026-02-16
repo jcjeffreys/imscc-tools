@@ -9,7 +9,7 @@ Create Canvas Common Cartridge (IMSCC) course packages using Python — programm
 - ✅ Assignment Groups with weights
 - ✅ Auto-converts local links to Canvas format
 - ✅ Local HTML preview before import
-- 🎯 Zero dependencies — Pure Python 3.7+
+- 🎯 Zero dependencies required — Pure Python 3.7+
 
 ## Installation
 
@@ -348,6 +348,90 @@ The build tool automatically:
 - Child combinator: `details.task-practice > h1` (direct children only)
 
 **Note:** Complex selectors (descendant, sibling, pseudo-classes) use simplified matching. The template's CSS is designed to work reliably with Canvas's inline style requirements.
+
+### Syntax Highlighting
+
+The build tool includes **automatic syntax highlighting** for code blocks using Pygments. This allows you to display beautifully colored code in your Canvas pages.
+
+**Installation:**
+
+Pygments is an optional dependency. Install it with:
+
+```bash
+pip install pygments
+```
+
+**Usage:**
+
+Simply add a `class="language-*"` attribute to your `<code>` blocks:
+
+```html
+<pre><code class="language-python">
+def hello():
+    print("Hello, World!")
+    return True
+</code></pre>
+
+<pre><code class="language-lua">
+function update()
+    player.x = player.x + 1
+    if player.x > 128 then
+        player.x = 0
+    end
+end
+</code></pre>
+```
+
+**Build Process:**
+
+When you build the IMSCC, the tool automatically:
+1. Detects code blocks with `class="language-*"` attributes
+2. Applies syntax highlighting using Pygments
+3. Wraps tokens in `<span>` elements with CSS classes
+4. Inlines the color styles from your CSS file
+
+**Supported Languages:**
+
+Pygments supports 500+ languages including:
+- `python`, `javascript`, `java`, `cpp`, `csharp`
+- `html`, `css`, `sql`, `bash`, `ruby`
+- `lua`, `go`, `rust`, `swift`, `kotlin`
+- Full list: https://pygments.org/languages/
+
+**Custom Color Themes:**
+
+Define your syntax highlighting colors in your CSS file:
+
+```css
+/* Syntax Highlighting */
+.k  { color: #ff77a8; }  /* Keywords */
+.s  { color: #29adff; }  /* Strings */
+.nf { color: #00e436; }  /* Functions */
+.mi { color: #29adff; }  /* Numbers */
+.c1 { color: #5f574f; }  /* Comments */
+```
+
+The build tool will automatically inline these colors when it processes the code blocks.
+
+**Example Output (in IMSCC):**
+
+```html
+<pre><code>
+<span class="k" style="color: #ff77a8;">def</span> 
+<span class="nf" style="color: #00e436;">hello</span><span class="p">()</span><span class="p">:</span>
+    <span class="nb" style="color: #00e436;">print</span><span class="p">(</span>
+    <span class="s2" style="color: #29adff;">"Hello, World!"</span><span class="p">)</span>
+</code></pre>
+```
+
+**Build Output:**
+
+When syntax highlighting is active, you'll see:
+```
+🎨 Highlighted 15 code blocks in page: lesson-1.html
+```
+
+If Pygments is not installed or the language is not recognized, code blocks remain unchanged (plain text).
 
 ### Link Auto-Conversion
 

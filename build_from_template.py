@@ -13,11 +13,25 @@ This script:
 """
 
 import os
+import sys
 import json
 import re
 import argparse
 from pathlib import Path
 from html.parser import HTMLParser
+
+# Fix Windows console encoding for emoji output
+if sys.platform == 'win32':
+    sys.stdout.reconfigure(encoding='utf-8')
+
+try:
+    from pygments import highlight
+    from pygments.lexers import get_lexer_by_name, guess_lexer
+    from pygments.formatters import HtmlFormatter
+    PYGMENTS_AVAILABLE = True
+except ImportError:
+    PYGMENTS_AVAILABLE = False
+
 from imscc import (
     Course, Module, Quiz, Assignment, Rubric,
     MultipleChoiceQuestion, TrueFalseQuestion,
@@ -107,6 +121,20 @@ def convert_links(html_content, page_filename, filename_to_slug_map=None, assign
         assignments_map = {}
     if quizzes_map is None:
         quizzes_map = {}
+    
+    # Convert assignment links: ../assignments/file.html → $CANVAS_OBJECT_REFERENCE$/assignments/file
+    html_content = re.sub(
+        r'href="\.\.\/assignments\/([^"]+)\.html"',
+        r'href="$CANVAS_OBJECT_REFERENCE$/assignments/\1"',
+        html_content
+    )
+    
+    # Convert quiz links: ../quizzes/quiz-id → $CANVAS_OBJECT_REFERENCE$/quizzes/quiz-id
+    html_content = re.sub(
+        r'href="\.\.\/quizzes\/([^"]+)"',
+        r'href="$CANVAS_OBJECT_REFERENCE$/quizzes/\1"',
+        html_content
+    )
     
     # Convert file links: ../web_resources/file.ext → $IMS-CC-FILEBASE$/web_resources/file.ext
     html_content = re.sub(
@@ -217,6 +245,18 @@ def parse_css(css_content):
         selector = match.group(1).strip()
         declarations = match.group(2).strip()
         
+        # Skip @media, @keyframes, and other at-rules
+        if selector.startswith('@'):
+            continue
+        
+        # Clean up selector: remove any leading closing braces from previous rules
+        # This handles cases where } appears before the actual selector
+        selector = re.sub(r'^[}\s]+', '', selector).strip()
+        
+        # Skip if selector is empty after cleaning
+        if not selector:
+            continue
+        
         # Parse declarations into dict
         styles = {}
         for decl in declarations.split(';'):
@@ -259,8 +299,8 @@ class CSSInliner(HTMLParser):
         
         # Track element for descendant selectors
         attrs_dict = dict(attrs)
-        element_classes = (attrs_dict.get('class') or '').split()
-        element_id = attrs_dict.get('id') or ''
+        element_classes = attrs_dict.get('class', '').split()
+        element_id = attrs_dict.get('id', '')
         
         # Push element to stack for CSS matching (all elements, including void)
         self.element_stack.append((tag, element_id, element_classes))
@@ -600,6 +640,62 @@ def inline_css(html_content, template_dir):
     return inliner.get_output()
 
 
+def highlight_code_blocks(html_content):
+    """
+    Find code blocks with language-* classes and apply syntax highlighting.
+    
+    Args:
+        html_content: HTML content string
+    
+    Returns:
+        str: HTML with syntax-highlighted code blocks
+    """
+    if not PYGMENTS_AVAILABLE:
+        print("   ⚠️  Pygments not available - skipping syntax highlighting")
+        return html_content
+    
+    # Pattern to find <code> elements with language classes
+    pattern = r'<code\s+class="language-(\w+)"[^>]*>([\s\S]*?)</code>'
+    
+    matches_found = 0
+    
+    def highlight_match(match):
+        nonlocal matches_found
+        matches_found += 1
+        language = match.group(1)
+        code = match.group(2)
+        
+        # Unescape HTML entities in code
+        code = code.replace('&lt;', '<')
+        code = code.replace('&gt;', '>')
+        code = code.replace('&amp;', '&')
+        code = code.replace('&quot;', '"')
+        code = code.strip()
+        
+        try:
+            # Get the appropriate lexer
+            lexer = get_lexer_by_name(language, stripall=True)
+            
+            # Create formatter with no wrapping div, just spans
+            formatter = HtmlFormatter(nowrap=True, noclasses=False)
+            
+            # Highlight the code
+            highlighted = highlight(code, lexer, formatter)
+            
+            return f'<code class="language-{language}">{highlighted}</code>'
+        except Exception as e:
+            # If highlighting fails, return original
+            print(f"   ⚠️  Syntax highlighting failed for {language}: {e}")
+            return match.group(0)
+    
+    result = re.sub(pattern, highlight_match, html_content)
+    
+    if matches_found > 0:
+        print(f"   🎨 Highlighted {matches_found} code blocks")
+    
+    return result
+
+
 def load_course_config(template_dir):
     """Load course configuration from course.json or return defaults."""
     config_path = template_dir / "course.json"
@@ -876,7 +972,10 @@ def build_imscc(template_dir, output_file=None):
         # Read HTML content
         html_content = html_file.read_text(encoding='utf-8')
         
-        # Inline CSS and remove link tags
+        # Apply syntax highlighting to code blocks FIRST (creates span elements)
+        html_content = highlight_code_blocks(html_content)
+        
+        # Then inline CSS (will style the syntax highlighting spans)
         html_content = inline_css(html_content, template_path)
         
         # Parse metadata

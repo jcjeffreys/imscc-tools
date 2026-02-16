@@ -1,2 +1,2 @@
-# IMSCC Tools - no external dependencies required for basic usage
-# All functionality uses Python standard library
+# IMSCC Tools - optional dependencies
+pygments>=2.0.0  # For syntax highlighting in code blocks
