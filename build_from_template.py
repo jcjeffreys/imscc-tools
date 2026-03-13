@@ -299,8 +299,8 @@ class CSSInliner(HTMLParser):
         
         # Track element for descendant selectors
         attrs_dict = dict(attrs)
-        element_classes = attrs_dict.get('class', '').split()
-        element_id = attrs_dict.get('id', '')
+        element_classes = (attrs_dict.get('class') or '').split()
+        element_id = attrs_dict.get('id') or ''
         
         # Push element to stack for CSS matching (all elements, including void)
         self.element_stack.append((tag, element_id, element_classes))
@@ -327,7 +327,7 @@ class CSSInliner(HTMLParser):
         
         # Merge with existing inline styles (inline styles take precedence)
         if applicable_styles:
-            existing_style = attrs_dict.get('style', '')
+            existing_style = attrs_dict.get('style') or ''
             merged_style = self._merge_styles(existing_style, applicable_styles)
             
             # Update or add style attribute
